@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Prompt Playbook | We Build AI Agents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #BE52FE;
+            --primary-dark: #9B3FD4;
+            --salmon: #FB805B;
+            --dark: #131013;
+            --text: #374151;
+            --text-light: #6B7280;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            --border: #E5E7EB;
+            --gradient: linear-gradient(135deg, #BE52FE 0%, #D664BE 50%, #FB805B 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            margin: 0;
+            size: A4;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--white);
+            font-size: 14px;
+        }
+
+        /* Cover Page */
+        .cover {
+            min-height: 100vh;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(190, 82, 254, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(251, 128, 91, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cover-logo {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h1 {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            color: rgba(255,255,255,0.7);
+            max-width: 500px;
+            margin-bottom: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-stat {
+            text-align: center;
+        }
+
+        .cover-stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .cover-stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .cover-footer {
+            position: absolute;
+            bottom: 40px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Content Pages */
+        .page {
+            padding: 60px;
+            max-width: 800px;
+            margin: 0 auto;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-number {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* Introduction */
+        .intro-block {
+            background: linear-gradient(135deg, #f5f3ff 0%, #fce7f3 50%, #fff7ed 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .intro-block h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .intro-block p {
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .intro-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .intro-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .intro-list li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .intro-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Prompt Cards */
+        .prompt-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .prompt-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .prompt-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .prompt-title-block {
+            flex: 1;
+        }
+
+        .prompt-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .prompt-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(190, 82, 254, 0.1);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .prompt-section {
+            margin-bottom: 24px;
+        }
+
+        .prompt-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .prompt-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .prompt-framework {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .prompt-template {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #E5E7EB;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .prompt-template .variable {
+            color: var(--salmon);
+            font-weight: 600;
+        }
+
+        .prompt-template .comment {
+            color: #6B7280;
+        }
+
+        .example-output {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border: 1px solid #BBF7D0;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 14px;
+        }
+
+        .example-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #16A34A;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        /* How to Use */
+        .how-to-use {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .how-to-step {
+            text-align: center;
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .how-to-step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 12px;
+        }
+
+        .how-to-step h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .how-to-step p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--dark);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .cta-section h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 24px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .cover {
+                height: 100vh;
+            }
+            .page {
+                padding: 40px;
+            }
+            .prompt-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <div class="cover-logo">We Build AI Agents</div>
+        <div class="cover-badge">Free Resource</div>
+        <h1>The AI Prompt<br><span>Playbook</span></h1>
+        <p class="cover-subtitle">12 battle-tested prompt frameworks to 10x your marketing output without hiring</p>
+        <div class="cover-stats">
+            <div class="cover-stat">
+                <div class="cover-stat-value">12</div>
+                <div class="cover-stat-label">Prompts</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">3</div>
+                <div class="cover-stat-label">Categories</div>
+            </div>
+            <div class="cover-stat">
+                <div class="cover-stat-value">10+</div>
+                <div class="cover-stat-label">Hours Saved/Week</div>
+            </div>
+        </div>
+        <div class="cover-footer">webuildaiagents.com</div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="page">
+        <div class="section-header">
+            <span class="section-number">Introduction</span>
+            <h2>Why Prompts Matter More Than Tools</h2>
+            <p>The difference between "meh" AI output and "holy sh*t that's good" output isn't the model you're using. It's the prompt.</p>
+        </div>
+
+        <div class="intro-block">
+            <h3>The Hard Truth About AI</h3>
+            <p>Most people use ChatGPT like a search engine. They type vague requests and get vague responses. Then they blame the AI.</p>
+            <p>But AI is a mirror. It reflects the quality of your input. Give it context, structure, and clear direction - and it becomes the most powerful marketing assistant you've ever had.</p>
+            <p><strong>These 12 frameworks are the same ones we use to power $150M+ in marketing operations at Mindvalley.</strong> They work because they give AI what it needs: context, constraints, and clarity.</p>
+        </div>
+
+        <div class="intro-block">
+            <h3>What Makes These Prompts Different</h3>
+            <ul class="intro-list">
+                <li><strong>Framework-first:</strong> Each prompt follows a proven structure, not random instructions</li>
+                <li><strong>Context-rich:</strong> They include the background info AI needs to produce expert-level output</li>
+                <li><strong>Output-focused:</strong> Every prompt specifies exactly what you want to receive</li>
+                <li><strong>Battle-tested:</strong> These have been refined through thousands of real-world uses</li>
+            </ul>
+        </div>
+
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 16px;">How to Use This Playbook</h3>
+
+        <div class="how-to-use">
+            <div class="how-to-step">
+                <div class="how-to-step-number">1</div>
+                <h4>Copy the Template</h4>
+                <p>Grab the prompt exactly as written</p>
+            </div>
+            <div class="how-to-step">
+                <div class="how-to-step-number">2</div>
+                <h4>Fill the Variables</h4>
+                <p>Replace [brackets] with your specifics</p>
+            </div>
+            <div class="how-to-step">
+                <div class="how-to-step-number">3</div>
+                <h4>Iterate & Refine</h4>
+                <p>Use follow-ups to perfect the output</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1: CONTENT CREATION -->
+    <div class="page">
+        <div class="section-header">
+            <span class="section-number">Section 1</span>
+            <h2>Content Creation Prompts</h2>
+            <p>Turn one idea into endless high-quality content</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">1</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">The Hook Formula</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">LinkedIn</span>
+                        <span class="prompt-tag">Email Subject Lines</span>
+                        <span class="prompt-tag">Ad Headlines</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Great hooks follow a pattern: they create an open loop in the reader's mind. This prompt generates hooks using 5 proven formulas: Contrarian, Curiosity Gap, Specific Number, Before/After, and Direct Challenge. The result? Scroll-stopping first lines every time.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a world-class copywriter who specializes in scroll-stopping hooks.
+
+Generate 10 hooks for a <span class="variable">[content type: LinkedIn post/email/ad]</span> about <span class="variable">[topic]</span>.
+
+Target audience: <span class="variable">[describe your audience]</span>
+Desired emotion: <span class="variable">[curiosity/fear/excitement/urgency]</span>
+
+Use these 5 hook formulas (2 of each):
+1. Contrarian: Challenge a common belief
+2. Curiosity Gap: Create an open loop
+3. Specific Number: Use an unexpected stat
+4. Before/After: Show transformation
+5. Direct Challenge: Call out the reader
+
+For each hook:
+- Keep it under 12 words
+- Make it impossible to scroll past
+- Include a pattern interrupt
+
+Format: Number each hook and label which formula it uses.</div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Example Output</div>
+                <div class="example-output">
+                    <div class="example-label">Sample hooks for "AI in marketing"</div>
+                    <p><strong>1. [Contrarian]</strong> "ChatGPT isn't making marketers obsolete. Bad marketers are."</p>
+                    <p><strong>2. [Curiosity Gap]</strong> "I replaced my $8K/month agency with a $20 tool. Here's the awkward part."</p>
+                    <p><strong>3. [Specific Number]</strong> "347 blog posts in 6 months. Same team. Here's the system."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">2</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">Story-to-Lesson Framework</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Blog Posts</span>
+                        <span class="prompt-tag">Newsletters</span>
+                        <span class="prompt-tag">Long-form Content</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Stories are 22x more memorable than facts alone. This framework transforms any experience into a compelling narrative with a clear takeaway. Structure: Hook → Context → Conflict → Resolution → Lesson → Application. The story makes them care; the lesson makes it stick.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a storytelling expert who transforms experiences into viral content.
+
+Turn this situation into a compelling story with a business lesson:
+
+The situation: <span class="variable">[describe what happened - be specific]</span>
+The lesson I want to convey: <span class="variable">[your key takeaway]</span>
+Target audience: <span class="variable">[who is reading this]</span>
+Platform: <span class="variable">[LinkedIn/blog/newsletter]</span>
+Desired length: <span class="variable">[word count]</span>
+
+Structure to follow:
+1. HOOK: Start mid-action or with dialogue (no "I was..." openings)
+2. CONTEXT: Set the scene in 2-3 sentences max
+3. CONFLICT: What went wrong or created tension?
+4. RESOLUTION: What happened? What did you do?
+5. LESSON: The universal truth (make it about THEM)
+6. APPLICATION: One specific action they can take today
+
+Tone: Conversational, honest, slightly self-deprecating
+Format: Short paragraphs, line breaks for readability</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">3</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">The Contrarian Take</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Thought Leadership</span>
+                        <span class="prompt-tag">Viral Content</span>
+                        <span class="prompt-tag">LinkedIn</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    The fastest path to attention is disagreement. But contrarian content fails when it's contrarian for its own sake. This framework helps you find genuine counter-narratives that are both provocative AND defensible. The key: challenge the conventional wisdom, then back it up with evidence.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a thought leader known for challenging industry assumptions.
+
+I want to write a contrarian take on: <span class="variable">[topic/common belief in your industry]</span>
+
+The conventional wisdom is: <span class="variable">[what most people believe]</span>
+My contrarian position is: <span class="variable">[what you actually think]</span>
+My evidence/experience: <span class="variable">[why you believe this]</span>
+
+Write a <span class="variable">[LinkedIn post/blog intro/Twitter thread]</span> that:
+
+1. Opens by stating the conventional wisdom (make it feel obvious)
+2. Pivots with "But here's what nobody talks about..."
+3. Presents my contrarian view with 3 supporting points
+4. Acknowledges the nuance (when the conventional wisdom IS right)
+5. Ends with a question that invites discussion
+
+Rules:
+- Don't be contrarian just for engagement bait
+- Make the argument logical and evidence-based
+- Tone: Confident but not arrogant
+- Include a specific example or story</div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Example Output</div>
+                <div class="example-output">
+                    <div class="example-label">Sample opening for "hustle culture"</div>
+                    <p>"Everyone says work-life balance is the key to success.</p>
+                    <p>Every productivity guru preaches boundaries. Every wellness brand sells you on 'rest.'</p>
+                    <p>But here's what nobody talks about: The most successful people I know went through seasons of extreme imbalance. Seasons where they were ALL in.</p>
+                    <p>The difference? They chose their imbalance intentionally..."</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">4</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">The Voice Training Technique</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Brand Consistency</span>
+                        <span class="prompt-tag">All Content Types</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Generic AI output happens because AI doesn't know YOUR voice. This two-step technique first trains AI on your brand's unique voice patterns, then uses that training for all future content. Run the Voice Analysis once, save it, and reference it in every prompt.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template (Step 1: Voice Analysis)</div>
+                <div class="prompt-template">Analyze the writing style of these 3 content samples and create a "Voice Profile" I can use in future prompts:
+
+<span class="variable">[Paste 3 examples of YOUR best content - 500+ words each]</span>
+
+Create a Voice Profile that includes:
+
+1. TONE ATTRIBUTES (list 5 adjectives)
+2. SENTENCE PATTERNS (short/long, simple/complex)
+3. VOCABULARY PREFERENCES (formal/casual, jargon level)
+4. SIGNATURE PHRASES (recurring expressions or patterns)
+5. PERSPECTIVE (first person, second person, etc.)
+6. EMOTIONAL RANGE (what emotions does this voice convey?)
+7. WHAT THIS VOICE NEVER DOES (anti-patterns)
+
+Format the profile so I can paste it into future prompts.</div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template (Step 2: Using the Voice)</div>
+                <div class="prompt-template">Write <span class="variable">[content type]</span> about <span class="variable">[topic]</span>.
+
+Use this voice profile:
+<span class="variable">[Paste your saved Voice Profile here]</span>
+
+Additional context: <span class="variable">[any specific requirements]</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">5</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">The Listicle Generator</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Blog Posts</span>
+                        <span class="prompt-tag">Social Media</span>
+                        <span class="prompt-tag">Newsletters</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Listicles get 2x more traffic than other blog formats because they're scannable and promise specific value. But most listicles are shallow. This framework creates listicles with depth: each item has context, example, and actionable takeaway. Quality AND quantity.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">Create a listicle: "<span class="variable">[Number]</span> <span class="variable">[Topic]</span> for <span class="variable">[Audience]</span>"
+
+Context about my audience: <span class="variable">[what they struggle with, their level]</span>
+
+For each list item, include:
+1. A compelling subheadline (curiosity-driven, not generic)
+2. WHY this matters (2-3 sentences of context)
+3. A specific example or mini-case study
+4. One actionable takeaway they can implement today
+
+Format requirements:
+- Items should be ordered from most impactful to least
+- Include a brief intro (3 sentences max) that hooks the reader
+- End with a conclusion that ties the items together
+- Total length: <span class="variable">[word count]</span>
+
+Avoid:
+- Generic advice ("be consistent," "work hard")
+- Anything they've read 100 times before
+- Filler content to hit the number</div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Example Output</div>
+                <div class="example-output">
+                    <div class="example-label">Sample item from "7 AI Tools for Solopreneurs"</div>
+                    <p><strong>3. Descript: Edit podcasts like Google Docs</strong></p>
+                    <p>Most solopreneurs avoid podcasting because editing audio feels like learning a new language. Descript flips this: you edit the transcript, and the audio follows. Delete a sentence of text, and the audio automatically cuts.</p>
+                    <p><em>Example:</em> Creator Ali Abdaal edits his podcast in half the time using transcript-based editing.</p>
+                    <p><em>Action:</em> Record a 5-minute voice note and edit it in Descript's free tier. You'll never touch Audacity again.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: CONVERSION & MARKETING -->
+    <div class="page">
+        <div class="section-header">
+            <span class="section-number">Section 2</span>
+            <h2>Conversion & Marketing Prompts</h2>
+            <p>Turn visitors into customers with proven copy frameworks</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">6</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">Landing Page Copy Generator</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Sales Pages</span>
+                        <span class="prompt-tag">Product Launches</span>
+                        <span class="prompt-tag">Lead Magnets</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Every high-converting landing page follows the same structure: Hero (grab attention) → Problem (agitate pain) → Solution (present your offer) → Proof (build trust) → CTA (drive action). This prompt generates copy for each section with the psychological triggers baked in.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a conversion copywriter who has written pages generating $10M+ in sales.
+
+Create landing page copy for: <span class="variable">[product/service name]</span>
+
+PRODUCT DETAILS:
+- What it is: <span class="variable">[describe the offering]</span>
+- Price point: <span class="variable">[price]</span>
+- Target audience: <span class="variable">[who is this for]</span>
+- Main pain point solved: <span class="variable">[the core problem]</span>
+- Key differentiator: <span class="variable">[what makes this unique]</span>
+
+Generate copy for each section:
+
+1. HERO SECTION
+   - Headline (10 words max, benefit-focused)
+   - Subheadline (clarify what it is + key outcome)
+   - 3 bullet points (specific benefits with outcomes)
+   - CTA button text
+
+2. PROBLEM SECTION
+   - Header that calls out their pain
+   - 3-4 pain points they're experiencing (be specific)
+   - Agitate: what happens if this isn't solved?
+
+3. SOLUTION SECTION
+   - Position your offer as the bridge
+   - "What if you could..." framing
+   - 3 key features translated to benefits
+
+4. SOCIAL PROOF SECTION
+   - Testimonial prompt structure
+   - Stats/numbers to highlight
+
+5. CTA SECTION
+   - Headline creating urgency
+   - Risk reversal statement
+   - Final CTA button text
+
+Tone: Confident, conversational, zero fluff</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">7</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">CRO Audit Prompt</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Conversion Optimization</span>
+                        <span class="prompt-tag">Landing Pages</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Before you rewrite, analyze. This prompt audits existing landing pages for conversion leaks using a systematic checklist: clarity, credibility, anxiety reducers, motivation triggers, and friction points. Paste your page copy and get specific, actionable fixes.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a CRO specialist who has optimized 500+ landing pages.
+
+Audit this landing page for conversion leaks:
+
+<span class="variable">[Paste the full landing page copy OR provide URL]</span>
+
+Context:
+- Target audience: <span class="variable">[who]</span>
+- Goal: <span class="variable">[lead capture/purchase/signup]</span>
+- Current conversion rate (if known): <span class="variable">[%]</span>
+
+Analyze using this framework:
+
+1. CLARITY (0-10 score)
+   - Can I understand what this is in 5 seconds?
+   - Is the value proposition crystal clear?
+   - Issues found + specific fixes
+
+2. CREDIBILITY (0-10 score)
+   - Is there enough social proof?
+   - Are claims backed by evidence?
+   - Issues found + specific fixes
+
+3. ANXIETY REDUCERS (0-10 score)
+   - Are objections addressed?
+   - Is there a guarantee/risk reversal?
+   - Issues found + specific fixes
+
+4. MOTIVATION (0-10 score)
+   - Does it create urgency?
+   - Are benefits emotional + specific?
+   - Issues found + specific fixes
+
+5. FRICTION (0-10 score)
+   - Is the CTA clear and prominent?
+   - Are there unnecessary form fields?
+   - Issues found + specific fixes
+
+End with: TOP 3 HIGHEST-IMPACT CHANGES (prioritized by effort vs. impact)</div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">8</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">Ad Creative Variations</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Meta Ads</span>
+                        <span class="prompt-tag">LinkedIn Ads</span>
+                        <span class="prompt-tag">Google Ads</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    One product, multiple angles. The best ad accounts test different emotional appeals: fear of missing out, desire for status, pain avoidance, aspiration, and social proof. This prompt generates variations across all angles so you can let the data decide what works.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a performance marketer who manages $1M+/month in ad spend.
+
+Create ad variations for: <span class="variable">[product/service]</span>
+
+Target audience: <span class="variable">[demographics, psychographics]</span>
+Platform: <span class="variable">[Meta/LinkedIn/Google]</span>
+Objective: <span class="variable">[awareness/leads/sales]</span>
+
+Generate 2 ads for EACH angle (10 total):
+
+ANGLE 1: PAIN AGITATION
+- Headline focused on the problem they're facing
+- Body copy that twists the knife (ethically)
+- CTA: urgency-based
+
+ANGLE 2: ASPIRATION
+- Headline focused on the outcome/transformation
+- Body copy painting the "after" picture
+- CTA: desire-based
+
+ANGLE 3: SOCIAL PROOF
+- Headline featuring a result or testimonial
+- Body copy with specifics (numbers, names)
+- CTA: FOMO-based
+
+ANGLE 4: CONTRARIAN/PATTERN INTERRUPT
+- Headline that challenges assumptions
+- Body copy that reframes the problem
+- CTA: curiosity-based
+
+ANGLE 5: DIRECT/LOGICAL
+- Headline stating exactly what it is
+- Body copy with features → benefits
+- CTA: straightforward
+
+Format each ad:
+- Primary text (125 chars max for feed)
+- Headline (40 chars max)
+- Description (30 chars max)
+- CTA button recommendation</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">9</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">Email Sequence Builder</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Lead Nurturing</span>
+                        <span class="prompt-tag">Onboarding</span>
+                        <span class="prompt-tag">Abandoned Cart</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Great email sequences take readers on a journey: from stranger to buyer. Each email has one job, and together they build momentum. This framework uses psychological triggers (reciprocity, authority, scarcity, social proof, commitment) mapped to a 5-email arc.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are an email marketing strategist with a 45%+ open rate track record.
+
+Create a 5-email nurture sequence for: <span class="variable">[product/service]</span>
+
+Context:
+- How they opted in: <span class="variable">[lead magnet/webinar/etc]</span>
+- Their main problem: <span class="variable">[pain point]</span>
+- End goal: <span class="variable">[what action you want them to take]</span>
+- Timeline: <span class="variable">[days between emails]</span>
+
+Email sequence structure:
+
+EMAIL 1: THE WELCOME (Reciprocity)
+- Deliver on the opt-in promise
+- Quick win they can implement immediately
+- Set expectations for the sequence
+- Soft CTA: reply with their #1 challenge
+
+EMAIL 2: THE STORY (Connection)
+- Your origin story related to their problem
+- Show you understand their struggle
+- Position yourself as a guide, not a hero
+- CTA: consume a piece of content
+
+EMAIL 3: THE PROOF (Authority + Social Proof)
+- Case study or testimonial deep-dive
+- Specific results with context
+- Address the "but will it work for me?" objection
+- CTA: check out [offer] if ready
+
+EMAIL 4: THE OBJECTION HANDLER (Address Fears)
+- Call out the reasons they haven't bought
+- Dismantle each objection with logic + story
+- Risk reversal / guarantee details
+- CTA: direct offer
+
+EMAIL 5: THE DEADLINE (Scarcity + Urgency)
+- Final reminder with real urgency
+- Recap of benefits
+- What they'll miss if they don't act
+- Clear, single CTA
+
+For each email provide:
+- Subject line (+ 1 alternative)
+- Preview text
+- Full email body
+- P.S. line</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: DESIGN, UI/UX, CRO -->
+    <div class="page">
+        <div class="section-header">
+            <span class="section-number">Section 3</span>
+            <h2>Design, UI/UX & CRO Prompts</h2>
+            <p>Bridge the gap between marketing and product</p>
+        </div>
+
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">10</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">UI/UX Copywriting Prompt</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Product Interfaces</span>
+                        <span class="prompt-tag">Onboarding Flows</span>
+                        <span class="prompt-tag">Error Messages</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    UI copy is the most underrated conversion lever. Every button, tooltip, and error message either builds trust or creates friction. This prompt generates microcopy that's clear, human, and action-oriented - turning confusing interfaces into intuitive experiences.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a UX writer at a top tech company known for delightful interfaces.
+
+Create UI copy for: <span class="variable">[product/feature name]</span>
+
+Product context:
+- What the product does: <span class="variable">[brief description]</span>
+- Target user: <span class="variable">[who uses this]</span>
+- Brand voice: <span class="variable">[professional/playful/minimal/friendly]</span>
+
+Generate copy for these elements:
+
+1. BUTTONS & CTAs
+   - Primary action button (3 options)
+   - Secondary action (3 options)
+   - Destructive action (delete/cancel) (2 options)
+
+2. EMPTY STATES
+   - When there's no data yet (headline + body + CTA)
+   - When search returns no results
+
+3. SUCCESS MESSAGES
+   - After completing main action
+   - After saving/updating
+
+4. ERROR MESSAGES
+   - Form validation errors (5 common ones)
+   - System errors (apologetic + actionable)
+   - Permission errors
+
+5. ONBOARDING TOOLTIPS
+   - First-time user hints (3 key features)
+   - Progress indicators copy
+
+6. CONFIRMATION MODALS
+   - Before destructive action
+   - Before major change
+
+Rules:
+- Max 8 words for buttons
+- Max 15 words for tooltips
+- Be specific about what happens next
+- Never blame the user
+- Always provide a path forward</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">11</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">Design Brief Generator</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Briefing Designers</span>
+                        <span class="prompt-tag">Creating Mockups</span>
+                        <span class="prompt-tag">AI Image Generation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Great design starts with a great brief. This prompt translates business objectives into concrete design requirements: mood, visual references, constraints, and success metrics. Use it to brief human designers or generate detailed prompts for AI design tools.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a creative director who has briefed award-winning campaigns.
+
+Create a design brief for: <span class="variable">[project type: landing page/social ad/email/etc]</span>
+
+Business context:
+- Company: <span class="variable">[company name + what they do]</span>
+- Campaign goal: <span class="variable">[awareness/conversions/engagement]</span>
+- Target audience: <span class="variable">[demographics + psychographics]</span>
+- Key message: <span class="variable">[the one thing they should remember]</span>
+- Existing brand guidelines: <span class="variable">[colors/fonts/style or "none"]</span>
+
+Generate a comprehensive brief:
+
+1. PROJECT OVERVIEW
+   - Objective in one sentence
+   - Success metrics
+   - Timeline/deadlines
+
+2. AUDIENCE INSIGHTS
+   - Who they are (beyond demographics)
+   - What they care about
+   - Visual preferences of this audience
+
+3. CREATIVE DIRECTION
+   - Mood/feeling (3-5 adjectives)
+   - Visual style references (describe 3)
+   - Color palette recommendations
+   - Typography style
+   - Imagery style (photo/illustration/abstract)
+
+4. CONTENT REQUIREMENTS
+   - Required elements (logo, CTA, etc.)
+   - Copy to include
+   - Hierarchy of information
+
+5. TECHNICAL SPECS
+   - Dimensions/formats needed
+   - File requirements
+   - Platform-specific considerations
+
+6. INSPIRATION & REFERENCES
+   - 3 examples of designs that hit the right tone
+   - What to avoid (anti-references)
+
+7. REVIEW CRITERIA
+   - How we'll evaluate success
+   - Key stakeholder concerns to address</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 CONTINUED -->
+    <div class="page">
+        <div class="prompt-card">
+            <div class="prompt-header">
+                <div class="prompt-number">12</div>
+                <div class="prompt-title-block">
+                    <h3 class="prompt-title">User Journey Mapper</h3>
+                    <div class="prompt-tags">
+                        <span class="prompt-tag">Product Strategy</span>
+                        <span class="prompt-tag">Marketing Funnels</span>
+                        <span class="prompt-tag">Customer Experience</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Framework</div>
+                <div class="prompt-framework">
+                    Customer journeys reveal where people drop off and why. This prompt maps the entire experience from first touch to loyal customer, identifying pain points, emotional states, and opportunities at each stage. Use it to find the biggest levers for growth.
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-section-title">Prompt Template</div>
+                <div class="prompt-template">You are a customer experience strategist who has optimized journeys for 8-figure brands.
+
+Map the customer journey for: <span class="variable">[product/service]</span>
+
+Context:
+- Business model: <span class="variable">[B2B/B2C/SaaS/E-commerce/etc]</span>
+- Primary acquisition channel: <span class="variable">[how they find you]</span>
+- Average sales cycle: <span class="variable">[time from discovery to purchase]</span>
+- Price point: <span class="variable">[price]</span>
+
+Create a journey map with these stages:
+
+1. AWARENESS
+   - How they discover you (channels)
+   - What triggers their search
+   - Their emotional state
+   - Questions in their mind
+   - Content needed at this stage
+   - Key metrics to track
+
+2. CONSIDERATION
+   - What they're comparing you against
+   - Their evaluation criteria
+   - Pain points / friction
+   - Emotional state
+   - Content needed at this stage
+   - Key metrics to track
+
+3. DECISION
+   - Final triggers to purchase
+   - Objections that remain
+   - Pain points / friction
+   - Emotional state
+   - What tips them over the edge
+   - Key metrics to track
+
+4. ONBOARDING
+   - First experience after purchase
+   - "Aha moment" - when do they get value?
+   - Pain points / friction
+   - Emotional state
+   - Support needed
+   - Key metrics to track
+
+5. RETENTION
+   - What keeps them engaged
+   - Risk of churn indicators
+   - Expansion opportunities
+   - Emotional state
+   - Key metrics to track
+
+6. ADVOCACY
+   - What triggers referrals
+   - How to encourage sharing
+   - Emotional state
+   - Key metrics to track
+
+End with: TOP 5 OPPORTUNITIES (where the biggest gaps/levers are)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL PAGE: CTA -->
+    <div class="page">
+        <div class="section-header">
+            <span class="section-number">What's Next</span>
+            <h2>Ready to Go From Prompts to Automation?</h2>
+            <p>These prompts save hours. Our agents save 10x more.</p>
+        </div>
+
+        <div class="intro-block">
+            <h3>The Difference Between Prompts and Agents</h3>
+            <p><strong>Prompts</strong> are powerful - they turn ChatGPT from a novelty into a serious tool. But you still need to run them manually. Every. Single. Time.</p>
+            <p><strong>Agents</strong> are prompts that run themselves. Set them up once, and they execute on autopilot - generating content, enriching leads, analyzing competitors - without you lifting a finger.</p>
+            <p>Prompts save you hours. Agents save you hours <em>every single week, forever</em>.</p>
+        </div>
+
+        <div class="intro-block">
+            <h3>What's Inside We Build AI Agents</h3>
+            <ul class="intro-list">
+                <li><strong>20+ pre-built automation agents</strong> (not prompts - full workflows)</li>
+                <li><strong>Video tutorials</strong> for every agent showing exactly how to deploy</li>
+                <li><strong>Import files</strong> for Make.com and n8n - set up in 15 minutes</li>
+                <li><strong>Community support</strong> when you get stuck</li>
+                <li><strong>New agents added monthly</strong> based on member requests</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h3>Turn These Prompts Into Autopilot</h3>
+            <p>Join We Build AI Agents and let your marketing run itself while you focus on growth.</p>
+            <a href="https://webuildaiagents.com" class="cta-button">Get Access Now →</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border);">
+            <p style="font-size: 12px; color: var(--text-light);">
+                <strong>We Build AI Agents</strong><br>
+                Expert-trained automations for growing businesses<br>
+                webuildaiagents.com
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
