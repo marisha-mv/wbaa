@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Build AI Agents | Resources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #BE52FE;
+            --pink: #EC91CB;
+            --salmon: #FB805B;
+            --almost-black: #131013;
+            --light-beige: #FEFBFD;
+            --white: #FFFFFF;
+            --gradient: linear-gradient(95.1deg, #BE52FE 1.1%, #D664BE 41.79%, #FB805B 104.31%);
+            --font-display: 'Funnel Display', sans-serif;
+            --font-body: 'Manrope', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--light-beige);
+            color: var(--almost-black);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 20px;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 8px 32px rgba(190, 82, 254, 0.3);
+        }
+
+        .logo::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(19, 16, 19, 0.6);
+            margin-bottom: 60px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .link-card {
+            display: block;
+            padding: 28px 32px;
+            background: var(--white);
+            border-radius: 18px;
+            text-decoration: none;
+            color: var(--almost-black);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .link-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(190, 82, 254, 0.15);
+            border-color: rgba(190, 82, 254, 0.2);
+        }
+
+        .link-card h2 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .link-card p {
+            font-size: 15px;
+            color: rgba(19, 16, 19, 0.6);
+            line-height: 1.5;
+        }
+
+        .link-card .arrow {
+            display: inline-block;
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        footer {
+            margin-top: 80px;
+            font-size: 14px;
+            color: rgba(19, 16, 19, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"></div>
+        <h1>We Build AI Agents</h1>
+        <p class="subtitle">Team Resources & Pages</p>
+
+        <div class="links">
+            <a href="sales-page.html" class="link-card">
+                <h2>Sales Page <span class="arrow">&rarr;</span></h2>
+                <p>Done-for-you automation workflows. The main offer page.</p>
+            </a>
+
+            <a href="brand-showcase.html" class="link-card">
+                <h2>Brand Showcase <span class="arrow">&rarr;</span></h2>
+                <p>Design system with colors, typography, buttons, and UI components.</p>
+            </a>
+
+            <a href="ai-prompt-playbook.html" class="link-card">
+                <h2>AI Prompt Playbook <span class="arrow">&rarr;</span></h2>
+                <p>Lead magnet resource page.</p>
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2025 We Build AI Agents
+        </footer>
+    </div>
+</body>
+</html>
