@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offer - We Build AI Agents</title>
+    <meta name="description" content="Exclusive lifetime access offer for waitlist members.">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ============================================
+           EXPERT-LEVEL UPSELL PAGE
+           Based on Frank Kern, Alex Hormozi, Russell Brunson
+           ============================================ */
+
+        body {
+            background: var(--color-bg-beige);
+        }
+
+        /* Success Banner */
+        .success-banner {
+            background: var(--color-success);
+            color: white;
+            padding: 14px 24px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .success-banner svg {
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* Progress Bar - Redesigned */
+        .progress-bar {
+            background: white;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .progress-step-circle.completed {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .progress-step-circle.current {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .progress-step-circle.upcoming {
+            background: var(--color-bg-light);
+            color: var(--color-text-muted);
+        }
+
+        .progress-step-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .progress-step-label.completed {
+            color: var(--color-success);
+        }
+
+        .progress-step-label.current {
+            color: var(--color-primary);
+        }
+
+        .progress-step-label.upcoming {
+            color: var(--color-text-muted);
+        }
+
+        .progress-line {
+            width: 40px;
+            height: 2px;
+            background: var(--color-bg-light);
+            margin: 0 4px;
+        }
+
+        .progress-line.completed {
+            background: var(--color-success);
+        }
+
+        /* Nav */
+        .nav {
+            background: rgba(254, 251, 253, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        /* ==================== HERO WITH TIMER ==================== */
+        .hero-upsell {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .timer-wrapper {
+            display: inline-block;
+            background: rgba(220, 38, 38, 0.08);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: 12px;
+            padding: 12px 24px;
+            margin-bottom: 24px;
+        }
+
+        .timer-label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .timer-display {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: #DC2626;
+        }
+
+        .hero-upsell h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero-upsell h1 .highlight {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ==================== VIDEO + OFFER SECTION ==================== */
+        .offer-grid {
+            padding: 40px 0 80px;
+        }
+
+        .offer-grid .container {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 48px;
+            align-items: start;
+        }
+
+        /* Left Column - Video + Explanation */
+        .offer-content {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .video-wrapper {
+            aspect-ratio: 16/9;
+            background: var(--color-bg-dark);
+            border-radius: 16px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder {
+            text-align: center;
+            color: white;
+        }
+
+        .video-placeholder svg {
+            width: 64px;
+            height: 64px;
+            opacity: 0.6;
+            margin-bottom: 12px;
+        }
+
+        .video-placeholder p {
+            font-size: 14px;
+            opacity: 0.5;
+        }
+
+        .offer-content h2 {
+            font-size: 28px;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+        }
+
+        .offer-content > p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .offer-content > p strong {
+            color: var(--color-text-primary);
+        }
+
+        /* Loss Aversion Box */
+        .loss-aversion {
+            background: rgba(251, 128, 91, 0.08);
+            border: 1px solid rgba(251, 128, 91, 0.2);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .loss-aversion p {
+            font-size: 15px;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .loss-aversion strong {
+            color: #FB805B;
+        }
+
+        /* Benefits List */
+        .benefits-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: 32px 0 20px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 16px;
+            color: var(--color-text-primary);
+        }
+
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+
+        .benefits-list li svg {
+            width: 22px;
+            height: 22px;
+            color: var(--color-success);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Right Column - Sticky Order Box */
+        .order-sidebar {
+            position: sticky;
+            top: 24px;
+        }
+
+        .order-box {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+            border: 2px solid var(--color-primary);
+        }
+
+        .order-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .order-header h3 {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .order-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .order-body {
+            padding: 28px 24px;
+        }
+
+        .order-social-proof {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(190, 82, 254, 0.08);
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+        }
+
+        .order-social-proof svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-primary);
+        }
+
+        .order-social-proof span {
+            font-size: 13px;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .order-price {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-price-compare {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+
+        .order-price-compare span {
+            text-decoration: line-through;
+        }
+
+        .order-price-amount {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .order-price-note {
+            font-size: 14px;
+            color: var(--color-text-primary);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .order-price-lifetime {
+            display: inline-block;
+            background: rgba(190, 82, 254, 0.1);
+            color: var(--color-primary);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-top: 8px;
+        }
+
+        .order-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .order-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-features li:last-child {
+            border-bottom: none;
+        }
+
+        .order-features li svg {
+            width: 18px;
+            height: 18px;
+            color: var(--color-success);
+            flex-shrink: 0;
+        }
+
+        .order-cta {
+            display: block;
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(190, 82, 254, 0.3);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .order-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(190, 82, 254, 0.4);
+            color: white;
+        }
+
+        .order-guarantee {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        .order-guarantee svg {
+            width: 14px;
+            height: 14px;
+            vertical-align: middle;
+            margin-right: 4px;
+            color: var(--color-success);
+        }
+
+        .order-spots {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .order-spots-number {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .order-spots-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        /* ==================== VALUE STACK ==================== */
+        .value-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .value-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .value-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .value-header p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+        }
+
+        .value-stack {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--color-bg-light);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .value-item {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            gap: 16px;
+            align-items: center;
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .value-item:last-child {
+            border-bottom: none;
+        }
+
+        .value-item-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .value-item-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--color-primary);
+        }
+
+        .value-item-name {
+            font-size: 16px;
+            color: var(--color-text-primary);
+            font-weight: 500;
+        }
+
+        .value-item-price {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+        }
+
+        .value-total {
+            background: var(--color-bg-dark);
+            color: white;
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .value-total-label {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .value-total-price {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .value-you-pay {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .value-you-pay-label {
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .value-you-pay-price {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .value-you-pay-note {
+            font-size: 15px;
+            font-weight: 600;
+            opacity: 0.95;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 100px;
+        }
+
+        /* ==================== TESTIMONIALS ==================== */
+        .testimonials-section {
+            padding: 80px 0;
+            background: var(--color-bg-beige);
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .testimonials-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .testimonials-header p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .testimonial-stars {
+            color: #FBBF24;
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text strong {
+            color: var(--color-text-primary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .testimonial-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 2px;
+        }
+
+        .testimonial-info p {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ==================== WHAT HAPPENS NEXT ==================== */
+        .next-section {
+            padding: 80px 0;
+            background: var(--color-bg-beige);
+        }
+
+        .next-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .next-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+        }
+
+        .next-timeline {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .next-item {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .next-item:last-child {
+            border-bottom: none;
+        }
+
+        .next-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        .next-content h3 {
+            font-size: 18px;
+            color: var(--color-text-primary);
+            margin-bottom: 6px;
+        }
+
+        .next-content p {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ==================== FAQ ==================== */
+        .faq-section {
+            padding: 80px 0;
+            background: var(--color-bg-light);
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .faq-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+        }
+
+        .faq-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            font-family: inherit;
+        }
+
+        .faq-question:hover {
+            color: var(--color-primary);
+        }
+
+        .faq-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--color-text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            padding: 0 24px 20px;
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ==================== FINAL CTA ==================== */
+        .final-cta-section {
+            padding: 80px 0;
+            background: var(--color-bg-dark);
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .final-cta-section > .container > p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+        }
+
+        .final-order-box {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-order-box .order-price-amount {
+            font-size: 52px;
+        }
+
+        .final-order-box .order-cta {
+            margin-top: 20px;
+        }
+
+        .skip-link {
+            margin-top: 24px;
+        }
+
+        .skip-link a {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+        }
+
+        .skip-link a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-bg-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-content a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+        }
+
+        .footer-content a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .offer-grid .container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .offer-content {
+                padding: 28px;
+            }
+
+            .value-item {
+                padding: 16px 20px;
+            }
+
+            .value-total,
+            .value-you-pay {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Success Banner -->
+    <div class="success-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        You're on the waitlist! Before you go, we have something special for you...
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="progress-step-circle completed">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <span class="progress-step-label completed">Waitlist</span>
+                </div>
+                <div class="progress-line completed"></div>
+                <div class="progress-step">
+                    <div class="progress-step-circle current">2</div>
+                    <span class="progress-step-label current">Special Offer</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="progress-step-circle upcoming">3</div>
+                    <span class="progress-step-label upcoming">Confirmation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="waitlist-premium.html" class="nav-logo">
+                <div class="nav-logo-icon"></div>
+                webuildaiagents
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero with Timer -->
+    <section class="hero-upsell">
+        <div class="container">
+            <div class="timer-wrapper">
+                <div class="timer-label">This offer expires in</div>
+                <div class="timer-display" id="countdown">15:00</div>
+            </div>
+
+            <h1>Wait — We Have a<br><span class="highlight">Special Offer</span> For You</h1>
+            <p class="hero-subtitle">
+                The first 30 waitlist members can lock in lifetime access at a massive discount. This page won't be shown again.
+            </p>
+        </div>
+    </section>
+
+    <!-- Video + Offer Grid -->
+    <section class="offer-grid">
+        <div class="container">
+            <!-- Left Column -->
+            <div class="offer-content">
+                <div class="video-wrapper">
+                    <div class="video-placeholder">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        <p>Video will be here</p>
+                    </div>
+                </div>
+
+                <h2>Introducing Lifetime Access</h2>
+                <p>
+                    You just secured your spot on the waitlist. But here's the thing — when we launch, the monthly price will be <strong>$249/month</strong> (going up to $499/month soon after).
+                </p>
+                <p>
+                    Right now, you have a one-time chance to <strong>pay once and never pay again</strong>. Forever access. Every agent. Every update. Every feature we ever build.
+                </p>
+
+                <!-- Loss Aversion Box -->
+                <div class="loss-aversion">
+                    <p>
+                        <strong>If you leave this page</strong> without claiming your spot, you'll pay <strong>$2,988+ per year</strong> like everyone else. This offer disappears the moment you close this tab.
+                    </p>
+                </div>
+
+                <h3 class="benefits-title">What Lifetime Members Get:</h3>
+                <ul class="benefits-list">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>All 6 current AI agents — fully built and ready to deploy in 20 minutes</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>Every future agent we ever build — included free, forever</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>Priority feature requests — your ideas go to the front of the line</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>6 months direct access to our team via private Slack channel</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>Early access before the public launch — you're first in line</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column - Sticky Order Box -->
+            <div class="order-sidebar">
+                <div class="order-box">
+                    <div class="order-header">
+                        <h3>Lifetime Access</h3>
+                        <p>One-time payment, access forever</p>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="order-social-proof">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>8 people secured their spot today</span>
+                        </div>
+
+                        <div class="order-price">
+                            <div class="order-price-compare">Normally <span>$5,494+</span> value</div>
+                            <div class="order-price-amount">$2,499</div>
+                            <div class="order-price-note">One-time payment only</div>
+                            <div class="order-price-lifetime">Pay once. Access forever.</div>
+                        </div>
+
+                        <ul class="order-features">
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                All current + future agents
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                6 months direct team access
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                Early access before launch
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                Never pay again — ever
+                            </li>
+                        </ul>
+
+                        <a href="#" class="order-cta">Get Lifetime Access</a>
+
+                        <div class="order-guarantee">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            7-day money-back guarantee
+                        </div>
+
+                        <div class="order-spots">
+                            <div class="order-spots-number">22</div>
+                            <div class="order-spots-label">spots remaining out of 30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Stack -->
+    <section class="value-section">
+        <div class="container">
+            <div class="value-header">
+                <h2>Everything You're Getting</h2>
+                <p>Here's the complete breakdown of your lifetime membership</p>
+            </div>
+
+            <div class="value-stack">
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <span class="value-item-name">All 6 Done-For-You AI Agents</span>
+                    <span class="value-item-price">$1,494/yr</span>
+                </div>
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <span class="value-item-name">All Future Agents Forever</span>
+                    <span class="value-item-price">$2,000+</span>
+                </div>
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <span class="value-item-name">Priority Feature Requests</span>
+                    <span class="value-item-price">$500</span>
+                </div>
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <span class="value-item-name">6 Months Direct Team Access</span>
+                    <span class="value-item-price">$1,200</span>
+                </div>
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <span class="value-item-name">Early Access Before Launch</span>
+                    <span class="value-item-price">$300</span>
+                </div>
+                <div class="value-item">
+                    <div class="value-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </div>
+                    <span class="value-item-name">Founding Member Recognition</span>
+                    <span class="value-item-price">Priceless</span>
+                </div>
+
+                <div class="value-total">
+                    <span class="value-total-label">Total Value</span>
+                    <span class="value-total-price">$5,494+</span>
+                </div>
+                <div class="value-you-pay">
+                    <div class="value-you-pay-label">You Pay Today</div>
+                    <div class="value-you-pay-price">$2,499</div>
+                    <div class="value-you-pay-note">One-time payment. Never pay again.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="testimonials-header">
+                <h2>What Early Users Are Saying</h2>
+                <p>Real results from marketers who deployed our AI agents</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "I deployed the lead qualification agent in <strong>literally 20 minutes</strong>. It's now handling 80% of my inbound leads automatically. I used to spend 3 hours a day on this."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MK</div>
+                        <div class="testimonial-info">
+                            <h4>Mike K.</h4>
+                            <p>Marketing Agency Owner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "The content repurposing agent is insane. I give it one blog post and it creates <strong>15 social posts, 3 email sequences, and a video script</strong>. Game changer."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SL</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah L.</h4>
+                            <p>E-commerce Founder</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Finally, AI that <strong>actually works for my business</strong>. No more prompting headaches. It just runs. The team support has been incredible too."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JR</div>
+                        <div class="testimonial-info">
+                            <h4>James R.</h4>
+                            <p>SaaS Marketing Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Happens Next -->
+    <section class="next-section">
+        <div class="container">
+            <div class="next-header">
+                <h2>What Happens Next</h2>
+            </div>
+
+            <div class="next-timeline">
+                <div class="next-item">
+                    <div class="next-number">1</div>
+                    <div class="next-content">
+                        <h3>Your card is charged immediately</h3>
+                        <p>One-time payment of $2,499 secures your lifetime spot.</p>
+                    </div>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-number">2</div>
+                    <div class="next-content">
+                        <h3>You get early access on February 18</h3>
+                        <p>Before the public launch — you're first in line.</p>
+                    </div>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-number">3</div>
+                    <div class="next-content">
+                        <h3>7-day money-back guarantee starts</h3>
+                        <p>If you don't save 4+ hours in your first week, full refund. No questions.</p>
+                    </div>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-number">4</div>
+                    <div class="next-content">
+                        <h3>You're set for life</h3>
+                        <p>Every new agent, every update, every feature — yours forever. Never pay again.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When do I get charged?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Immediately. Your payment secures your lifetime spot right now.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When do I get access?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Lifetime members get early access on February 18 — before the public launch.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I upgrade from monthly to lifetime later?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. This is a one-time founding member offer. After 30 spots are gone, lifetime access is never available again — at any price.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if I'm not satisfied?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>7-day money-back guarantee. If you don't save at least 4 hours in your first week, email us for a full refund. No questions asked.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What's included that monthly members don't get?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>All future agents forever (monthly members pay extra), priority feature requests, 6 months direct team access, and founding member recognition.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why only 30 lifetime spots?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We want to work closely with a small group of committed founding partners. After 30, we focus on growing our monthly subscriber base.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2>Ready to Lock In Lifetime Access?</h2>
+            <p>Join 8 other founding members who've already secured their spot.</p>
+
+            <div class="final-order-box">
+                <div class="order-price">
+                    <div class="order-price-compare">Normally <span>$5,494+</span> value</div>
+                    <div class="order-price-amount">$2,499</div>
+                    <div class="order-price-note">One-time payment only</div>
+                    <div class="order-price-lifetime">Pay once. Access forever.</div>
+                </div>
+
+                <a href="#" class="order-cta">Get Lifetime Access Now</a>
+
+                <div class="order-guarantee">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    7-day money-back guarantee
+                </div>
+            </div>
+
+            <div class="skip-link">
+                <a href="thankyou.html">No thanks, I'll stay on the waitlist for monthly access</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <span>© 2024 We Build AI Agents</span>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown Timer
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        const countdownEl = document.getElementById('countdown');
+
+        function updateCountdown() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                countdownEl.textContent = "0:00";
+            }
+        }
+
+        updateCountdown();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isOpen = item.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're In! - We Build AI Agents</title>
+    <meta name="description" content="You're on the early access list for We Build AI Agents.">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ============================================
+           THANK YOU PAGE - WORLD CLASS
+           Frank Kern + Alex Hormozi principles
+           ============================================ */
+
+        body {
+            background: var(--color-bg-beige);
+            min-height: 100vh;
+        }
+
+        /* Nav - light background */
+        .nav {
+            background: rgba(254, 251, 253, 0.9);
+            backdrop-filter: blur(20px);
+        }
+
+        /* Hero section */
+        .thankyou-hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .thankyou-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 20%, rgba(190, 82, 254, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .confetti-container {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+        }
+
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--color-success);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            animation: fade-in 0.5s ease;
+        }
+
+        .success-badge svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .thankyou-hero h1 {
+            font-size: clamp(40px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            animation: fade-in 0.5s ease 0.1s both;
+        }
+
+        .thankyou-hero h1 .highlight {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .thankyou-subtitle {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            max-width: 500px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+            animation: fade-in 0.5s ease 0.2s both;
+        }
+
+        /* Hero Grid - Position + Video side by side */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 48px;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fade-in 0.5s ease 0.3s both;
+        }
+
+        /* Position number */
+        .position-card {
+            background: white;
+            border: 2px solid var(--color-primary);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(190, 82, 254, 0.15);
+            text-align: center;
+        }
+
+        .position-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .position-number {
+            font-family: var(--font-display);
+            font-size: 56px;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .position-note {
+            font-size: 14px;
+            color: var(--color-success);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Video in hero */
+        .hero-video {
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            background: var(--color-bg-dark);
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .video-container:hover .video-play-btn {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-play-btn svg {
+            width: 28px;
+            height: 28px;
+            color: var(--color-primary);
+            margin-left: 4px;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .video-caption {
+            margin-top: 16px;
+            font-size: 15px;
+            color: var(--color-text-secondary);
+        }
+
+        /* Transformation Section */
+        .transform-section {
+            padding: 80px 0;
+            background: var(--color-bg-beige);
+        }
+
+        .transform-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .transform-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .transform-header p {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+        }
+
+        .transform-timeline {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .transform-item {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transform-item:last-child {
+            border-bottom: none;
+        }
+
+        .transform-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .transform-content h3 {
+            font-size: 18px;
+            color: var(--color-text-primary);
+            margin-bottom: 6px;
+        }
+
+        .transform-content p {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Instant Value Section */
+        .value-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .value-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .value-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .value-header .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .value-header h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--color-text-primary);
+            margin-bottom: 12px;
+        }
+
+        .value-header p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, rgba(190, 82, 254, 0.05), rgba(251, 128, 91, 0.03));
+            border: 1px solid rgba(190, 82, 254, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .value-content h3 {
+            font-size: 24px;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+        }
+
+        .value-content p {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .value-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .value-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--color-text-secondary);
+        }
+
+        .value-list li svg {
+            width: 20px;
+            height: 20px;
+            color: var(--color-success);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .value-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 16px rgba(190, 82, 254, 0.3);
+        }
+
+        .value-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(190, 82, 254, 0.4);
+            color: white;
+        }
+
+        .value-cta svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .value-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .value-preview-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .value-preview-icon svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+
+        .value-preview-title {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .value-preview-subtitle {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        .value-preview-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .value-preview-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .value-preview-list li:last-child {
+            border-bottom: none;
+        }
+
+        .value-preview-list li svg {
+            width: 16px;
+            height: 16px;
+            color: var(--color-primary);
+        }
+
+        /* Social Proof */
+        .proof-section {
+            padding: 80px 0;
+            background: var(--color-bg-light);
+        }
+
+        .proof-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .proof-header h2 {
+            font-size: clamp(24px, 3vw, 32px);
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+        }
+
+        .proof-header p {
+            color: var(--color-text-secondary);
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .proof-quote {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .proof-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .proof-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .proof-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--color-text-primary);
+        }
+
+        .proof-role {
+            font-size: 13px;
+            color: var(--color-text-muted);
+        }
+
+        /* Share Section */
+        .share-section {
+            padding: 80px 0;
+            background: var(--color-bg-dark);
+            text-align: center;
+        }
+
+        .share-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+
+        .share-section h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .share-section > .container > .share-wrapper > p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .share-subtitle {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .share-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .share-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Follow Section */
+        .follow-section {
+            padding: 60px 0;
+            background: var(--color-bg-beige);
+            text-align: center;
+        }
+
+        .follow-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .follow-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .follow-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .follow-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .follow-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-bg-beige);
+            border-top: 1px solid var(--border-color);
+            padding: 24px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--color-text-muted);
+        }
+
+        .footer-content a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-content a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .proof-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .position-card {
+                max-width: 280px;
+                margin: 0 auto;
+            }
+
+            .value-card {
+                grid-template-columns: 1fr;
+            }
+
+            .share-buttons,
+            .follow-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .share-btn,
+            .follow-btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="waitlist-premium.html" class="nav-logo">
+                <div class="nav-logo-icon"></div>
+                webuildaiagents
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="thankyou-hero">
+        <div class="confetti-container" id="confetti"></div>
+        <div class="container">
+            <div class="success-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                You're on the list
+            </div>
+
+            <h1>Welcome to the <span class="highlight">Inner Circle</span></h1>
+            <p class="thankyou-subtitle">
+                You just skipped the line. When we launch, you'll be first to deploy your AI team — before anyone else.
+            </p>
+
+            <div class="hero-grid">
+                <div class="position-card">
+                    <div class="position-label">Your Position</div>
+                    <div class="position-number">#<span id="position">247</span></div>
+                    <div class="position-note">Top 5% of early adopters</div>
+                </div>
+
+                <div class="hero-video">
+                    <div class="video-container">
+                        <!-- Replace with actual video thumbnail -->
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; align-items: center; justify-content: center;">
+                            <span style="color: rgba(255,255,255,0.3); font-size: 14px;">[ Your Video Thumbnail ]</span>
+                        </div>
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        </div>
+                        <div class="video-duration">1:32</div>
+                    </div>
+                    <p class="video-caption">A quick message from me</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Timeline -->
+    <section class="transform-section">
+        <div class="container">
+            <div class="transform-header">
+                <h2>Here's what happens next</h2>
+                <p>Your journey to getting 30+ hours back starts now</p>
+            </div>
+
+            <div class="transform-timeline">
+                <div class="transform-item">
+                    <div class="transform-number">1</div>
+                    <div class="transform-content">
+                        <h3>Check your inbox</h3>
+                        <p>You'll get a confirmation email with a free resource to help you prepare. (Check spam if you don't see it in 5 minutes.)</p>
+                    </div>
+                </div>
+
+                <div class="transform-item">
+                    <div class="transform-number">2</div>
+                    <div class="transform-content">
+                        <h3>Exclusive early access content</h3>
+                        <p>We'll send you behind-the-scenes looks at the agents, plus tips to maximize your results on day one.</p>
+                    </div>
+                </div>
+
+                <div class="transform-item">
+                    <div class="transform-number">3</div>
+                    <div class="transform-content">
+                        <h3>You deploy first</h3>
+                        <p>While everyone else is stuck on a waitlist, you'll already have your AI team running — saving hours from day one.</p>
+                    </div>
+                </div>
+
+                <div class="transform-item">
+                    <div class="transform-number">4</div>
+                    <div class="transform-content">
+                        <h3>30+ hours back in your calendar</h3>
+                        <p>Your agents will be trained on YOUR data, producing content that sounds like you wrote it. No more late nights. No more overwhelm.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instant Value -->
+    <section class="value-section">
+        <div class="container">
+            <div class="value-wrapper">
+                <div class="value-header">
+                    <div class="section-label">While You Wait</div>
+                    <h2>Don't leave empty-handed</h2>
+                    <p>Here's something to get you started right now</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-content">
+                        <h3>The AI Prompt Playbook</h3>
+                        <p>The exact prompts our team uses to train our agents. These aren't generic templates — they're the frameworks behind 50M+ impressions.</p>
+
+                        <ul class="value-list">
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                12 proven content frameworks
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                Copy-paste prompts that actually work
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                The "voice training" technique
+                            </li>
+                        </ul>
+
+                        <a href="#" class="value-cta">
+                            Download Free Playbook
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="value-preview">
+                        <div class="value-preview-header">
+                            <div class="value-preview-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            </div>
+                            <div>
+                                <div class="value-preview-title">AI Prompt Playbook</div>
+                                <div class="value-preview-subtitle">PDF • 24 pages</div>
+                            </div>
+                        </div>
+                        <ul class="value-preview-list">
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                The Hook Formula
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                Story-to-Lesson Framework
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                The Contrarian Take
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                + 9 more frameworks...
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="proof-section">
+        <div class="container">
+            <div class="proof-header">
+                <h2>You're in good company</h2>
+                <p>Here's what early testers are saying</p>
+            </div>
+
+            <div class="proof-grid">
+                <div class="proof-card">
+                    <p class="proof-quote">"I was skeptical, but the Content Agent wrote a LinkedIn post that got more engagement than anything I've written myself. In 30 seconds."</p>
+                    <div class="proof-author">
+                        <div class="proof-avatar">SC</div>
+                        <div>
+                            <div class="proof-name">Sarah Chen</div>
+                            <div class="proof-role">Course Creator</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proof-card">
+                    <p class="proof-quote">"Finally. Something that actually works without needing a PhD in prompt engineering. Set it up in 15 minutes."</p>
+                    <div class="proof-author">
+                        <div class="proof-avatar">MW</div>
+                        <div>
+                            <div class="proof-name">Marcus Webb</div>
+                            <div class="proof-role">Agency Owner</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proof-card">
+                    <p class="proof-quote">"The CRO Agent found issues on my landing page that I'd missed for months. It paid for itself before I even finished setting up the other agents."</p>
+                    <div class="proof-author">
+                        <div class="proof-avatar">JT</div>
+                        <div>
+                            <div class="proof-name">Jessica Torres</div>
+                            <div class="proof-role">Marketing Manager</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share -->
+    <section class="share-section">
+        <div class="container">
+            <div class="share-wrapper">
+                <h2>Know someone who needs this?</h2>
+                <p class="share-subtitle">Help them escape the content hamster wheel. Share this with one person who needs it — they'll thank you later.</p>
+
+                <div class="share-buttons">
+                    <a href="mailto:?subject=You need to see this&body=Hey, I just signed up for early access to We Build AI Agents. Pre-trained AI agents you deploy in minutes - no coding required. Thought of you immediately: https://webuildaiagents.com" class="share-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Email a Friend
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text=Just%20got%20early%20access%20to%20We%20Build%20AI%20Agents.%20Pre-trained%20AI%20agents%20you%20deploy%20in%20minutes%20%E2%80%94%20no%20coding%2C%20no%20prompt%20engineering.%20Check%20it%20out%3A%20https%3A%2F%2Fwebuildaiagents.com" target="_blank" class="share-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        Share on X
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://webuildaiagents.com" target="_blank" class="share-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        Share on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Follow -->
+    <section class="follow-section">
+        <div class="container">
+            <p>Follow along for behind-the-scenes updates:</p>
+            <div class="follow-buttons">
+                <a href="#" class="follow-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    LinkedIn
+                </a>
+                <a href="#" class="follow-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    X (Twitter)
+                </a>
+                <a href="#" class="follow-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <span>© 2024 We Build AI Agents</span>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </footer>
+
+    <script>
+        // Confetti animation
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#BE52FE', '#D664BE', '#FB805B', '#10b981', '#fbbf24'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(confetti);
+            }
+        }
+
+        // Random position number (creates urgency)
+        function setPosition() {
+            const position = Math.floor(Math.random() * 300) + 150;
+            document.getElementById('position').textContent = position;
+        }
+
+        // Init
+        createConfetti();
+        setPosition();
+    </script>
+</body>
+</html>

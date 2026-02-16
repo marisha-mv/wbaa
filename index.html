@@ -31,17 +31,17 @@
             background: var(--light-beige);
             color: var(--almost-black);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 40px 20px;
         }
 
         .container {
-            max-width: 800px;
-            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 60px;
         }
 
         .logo {
@@ -79,20 +79,34 @@
         .subtitle {
             font-size: 18px;
             color: rgba(19, 16, 19, 0.6);
-            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(19, 16, 19, 0.4);
+            margin-bottom: 20px;
+            padding-left: 4px;
+        }
+
+        .section {
+            margin-bottom: 48px;
         }
 
         .links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
         }
 
         .link-card {
             display: block;
-            padding: 28px 32px;
+            padding: 24px 28px;
             background: var(--white);
-            border-radius: 18px;
+            border-radius: 16px;
             text-decoration: none;
             color: var(--almost-black);
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -108,20 +122,20 @@
 
         .link-card h2 {
             font-family: var(--font-display);
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .link-card p {
-            font-size: 15px;
+            font-size: 14px;
             color: rgba(19, 16, 19, 0.6);
             line-height: 1.5;
         }
 
         .link-card .arrow {
             display: inline-block;
-            margin-left: 8px;
+            margin-left: 6px;
             transition: transform 0.3s ease;
         }
 
@@ -131,6 +145,7 @@
 
         footer {
             margin-top: 80px;
+            text-align: center;
             font-size: 14px;
             color: rgba(19, 16, 19, 0.4);
         }
@@ -138,25 +153,55 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo"></div>
-        <h1>We Build AI Agents</h1>
-        <p class="subtitle">Team Resources & Pages</p>
+        <div class="header">
+            <div class="logo"></div>
+            <h1>We Build AI Agents</h1>
+            <p class="subtitle">Team Resources & Pages</p>
+        </div>
 
-        <div class="links">
-            <a href="sales-page.html" class="link-card">
-                <h2>Sales Page <span class="arrow">&rarr;</span></h2>
-                <p>Done-for-you automation workflows. The main offer page.</p>
-            </a>
+        <div class="section">
+            <div class="section-title">Funnel Pages</div>
+            <div class="links">
+                <a href="sales-page.html" class="link-card">
+                    <h2>Sales Page <span class="arrow">&rarr;</span></h2>
+                    <p>Main offer page - done-for-you automation workflows</p>
+                </a>
 
-            <a href="brand-showcase.html" class="link-card">
-                <h2>Brand Showcase <span class="arrow">&rarr;</span></h2>
-                <p>Design system with colors, typography, buttons, and UI components.</p>
-            </a>
+                <a href="waitlist.html" class="link-card">
+                    <h2>Waitlist <span class="arrow">&rarr;</span></h2>
+                    <p>Premium waitlist signup page</p>
+                </a>
 
-            <a href="ai-prompt-playbook.html" class="link-card">
-                <h2>AI Prompt Playbook <span class="arrow">&rarr;</span></h2>
-                <p>Lead magnet resource page.</p>
-            </a>
+                <a href="checkout.html" class="link-card">
+                    <h2>Checkout <span class="arrow">&rarr;</span></h2>
+                    <p>Payment and checkout page</p>
+                </a>
+
+                <a href="thank-you.html" class="link-card">
+                    <h2>Thank You <span class="arrow">&rarr;</span></h2>
+                    <p>Post-purchase confirmation page</p>
+                </a>
+
+                <a href="lifetime.html" class="link-card">
+                    <h2>Lifetime Offer <span class="arrow">&rarr;</span></h2>
+                    <p>Lifetime deal sales page</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Resources</div>
+            <div class="links">
+                <a href="ai-prompt-playbook.html" class="link-card">
+                    <h2>AI Prompt Playbook <span class="arrow">&rarr;</span></h2>
+                    <p>Lead magnet resource page</p>
+                </a>
+
+                <a href="brand-showcase.html" class="link-card">
+                    <h2>Brand Showcase <span class="arrow">&rarr;</span></h2>
+                    <p>Design system - colors, typography, components</p>
+                </a>
+            </div>
         </div>
 
         <footer>
