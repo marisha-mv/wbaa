@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WBAA Email Sequence Audit | Full Review & Rewrites</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        header p {
+            text-align: center;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .summary-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-card .label {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .summary-card.success .number { color: var(--success); }
+        .summary-card.warning .number { color: var(--warning); }
+        .summary-card.danger .number { color: var(--danger); }
+
+        .toc {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            margin-bottom: 20px;
+            color: var(--gray-900);
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray-800);
+            transition: all 0.2s;
+        }
+
+        .toc-item:hover {
+            background: var(--gray-100);
+            transform: translateX(5px);
+        }
+
+        .toc-item .score-badge {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .score.before {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .score.after {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+
+        .arrow {
+            color: var(--gray-400);
+        }
+
+        .critical-issues {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .critical-issues h2 {
+            color: var(--danger);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .critical-issues ul {
+            list-style: none;
+        }
+
+        .critical-issues li {
+            padding: 12px 0;
+            border-bottom: 1px solid #fecaca;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .critical-issues li:last-child {
+            border-bottom: none;
+        }
+
+        .critical-issues .icon {
+            color: var(--danger);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .email-section {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .email-header {
+            background: var(--gray-800);
+            color: white;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .email-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .email-header .scores {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .email-header .score {
+            padding: 6px 14px;
+            font-size: 1rem;
+        }
+
+        .email-meta {
+            background: var(--gray-100);
+            padding: 15px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .email-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .email-body {
+            padding: 30px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-column {
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-column.original {
+            border-color: #fecaca;
+        }
+
+        .comparison-column.rewrite {
+            border-color: #a7f3d0;
+        }
+
+        .column-header {
+            padding: 15px 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comparison-column.original .column-header {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        .comparison-column.rewrite .column-header {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+
+        .email-content {
+            padding: 20px;
+            font-size: 0.95rem;
+            background: var(--gray-50);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .email-content .subject {
+            background: var(--gray-200);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .email-content .preview {
+            background: var(--gray-100);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-style: italic;
+        }
+
+        .email-content .body {
+            white-space: pre-wrap;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .highlight.good {
+            background: #d1fae5;
+        }
+
+        .highlight.bad {
+            background: #fee2e2;
+        }
+
+        .changes-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .changes-section h3 {
+            margin-bottom: 20px;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .changes-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .change-item {
+            display: grid;
+            grid-template-columns: 120px 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .change-item {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .change-item .label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .change-item .before-text {
+            color: var(--danger);
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .change-item .after-text {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .reasoning-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .reasoning-box h4 {
+            color: #1e40af;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reasoning-box ul {
+            margin-left: 20px;
+        }
+
+        .reasoning-box li {
+            margin-bottom: 8px;
+            color: var(--gray-700);
+        }
+
+        .framework-tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .principles-applied {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .principles-applied h4 {
+            margin-bottom: 15px;
+            color: var(--gray-800);
+        }
+
+        .principle-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .principle-tag {
+            background: white;
+            border: 1px solid var(--gray-300);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .checklist {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .checklist h2 {
+            margin-bottom: 20px;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: var(--gray-50);
+            border-radius: 6px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--success);
+        }
+
+        .nav-sticky {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 10px;
+            z-index: 100;
+        }
+
+        @media (max-width: 1200px) {
+            .nav-sticky {
+                display: none;
+            }
+        }
+
+        .nav-sticky a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-sticky a:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
+
+        .score-improvement {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>WBAA Email Sequence Audit</h1>
+    <p>Complete Review, Rewrites & Scoring | Based on Copywriting Mastery + Marisha Skill Frameworks</p>
+</header>
+
+<nav class="nav-sticky">
+    <a href="#summary">Summary</a>
+    <a href="#critical">Critical Issues</a>
+    <a href="#c1">C1: Workshop</a>
+    <a href="#c2">C2: List Blast</a>
+    <a href="#c3">C3: Waitlist</a>
+    <a href="#c4">C4: Abandoned</a>
+    <a href="#c5">C5: Confirmation</a>
+    <a href="#c6">C6: Nurture</a>
+    <a href="#c7">C7: Platform Ready</a>
+    <a href="#c9">C9: Launch</a>
+    <a href="#checklist">Checklist</a>
+</nav>
+
+<div class="container">
+
+    <!-- Summary Cards -->
+    <section id="summary" class="summary-cards">
+        <div class="summary-card warning">
+            <div class="number">6.8</div>
+            <div class="label">Current Average Score</div>
+        </div>
+        <div class="summary-card success">
+            <div class="number">8.6</div>
+            <div class="label">Projected After Rewrites</div>
+        </div>
+        <div class="summary-card danger">
+            <div class="number">5</div>
+            <div class="label">Critical Issues Found</div>
+        </div>
+        <div class="summary-card">
+            <div class="number">12</div>
+            <div class="label">Emails Audited</div>
+        </div>
+    </section>
+
+    <!-- Critical Issues -->
+    <section id="critical" class="critical-issues">
+        <h2>Critical Issues (Fix These First)</h2>
+        <ul>
+            <li>
+                <span class="icon">1.</span>
+                <div>
+                    <strong>Date Inconsistency (RESOLVED)</strong> — Some original emails said "March 2nd" instead of "April 2nd". All rewrites now use April 2nd.
+                    <br><strong>Status: Fixed in all rewritten emails</strong>
+                </div>
+            </li>
+            <li>
+                <span class="icon">2.</span>
+                <div>
+                    <strong>Spot Count Mismatch</strong> — Emails say "30 spots" but SSOT says "25 early supporters".
+                    <br><strong>Fix: Align to 25 spots everywhere</strong>
+                </div>
+            </li>
+            <li>
+                <span class="icon">3.</span>
+                <div>
+                    <strong>No Escalating Urgency</strong> — Static "30 spots" with no countdown. Per Marisha Skill, urgency should escalate: 25 → 18 → 9 → 3.
+                    <br><strong>Fix: Add dynamic spot counts that decrease over sequence</strong>
+                </div>
+            </li>
+            <li>
+                <span class="icon">4.</span>
+                <div>
+                    <strong>Weak CTAs Throughout</strong> — Generic "Click here" and "Complete Your Purchase" lack urgency and value.
+                    <br><strong>Fix: Every CTA should include action + value + urgency</strong>
+                </div>
+            </li>
+            <li>
+                <span class="icon">5.</span>
+                <div>
+                    <strong>Missing Social Proof</strong> — Only nurture emails have case studies. Blast emails need proof points.
+                    <br><strong>Fix: Add 1-2 quick testimonials/results to C1, C2, C4</strong>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="toc">
+        <h2>Email Sequence Overview</h2>
+        <div class="toc-grid">
+            <a href="#c1" class="toc-item">
+                <span>C1: Workshop Blast</span>
+                <div class="score-badge">
+                    <span class="score before">6.5</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">8.5</span>
+                </div>
+            </a>
+            <a href="#c2" class="toc-item">
+                <span>C2: Main List Blast</span>
+                <div class="score-badge">
+                    <span class="score before">6.0</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">8.5</span>
+                </div>
+            </a>
+            <a href="#c3" class="toc-item">
+                <span>C3: Waitlist Confirmation</span>
+                <div class="score-badge">
+                    <span class="score before">7.0</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">8.5</span>
+                </div>
+            </a>
+            <a href="#c4" class="toc-item">
+                <span>C4: Abandoned Cart (3 emails)</span>
+                <div class="score-badge">
+                    <span class="score before">7.5</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">9.0</span>
+                </div>
+            </a>
+            <a href="#c5" class="toc-item">
+                <span>C5: Lifetime Confirmation</span>
+                <div class="score-badge">
+                    <span class="score before">8.0</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">9.0</span>
+                </div>
+            </a>
+            <a href="#c6" class="toc-item">
+                <span>C6: Waitlist Nurture (2 emails)</span>
+                <div class="score-badge">
+                    <span class="score before">8.25</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">9.0</span>
+                </div>
+            </a>
+            <a href="#c7" class="toc-item">
+                <span>C7: Platform Ready</span>
+                <div class="score-badge">
+                    <span class="score before">6.0</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">8.5</span>
+                </div>
+            </a>
+            <a href="#c9" class="toc-item">
+                <span>C9: Launch Confirmation</span>
+                <div class="score-badge">
+                    <span class="score before">6.5</span>
+                    <span class="arrow">→</span>
+                    <span class="score after">8.5</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C1: Workshop Blast -->
+    <!-- ============================================ -->
+    <section id="c1" class="email-section">
+        <div class="email-header">
+            <h2>C1: Workshop Blast</h2>
+            <div class="scores">
+                <span class="score before">Before: 6.5/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 9.0/10</span>
+                <span class="score-improvement">+2.0</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Scheduled: 26 Feb 2026</span>
+            <span>Audience: May Workshop Attendees</span>
+            <span>Goal: Convert warm leads to Early Bird</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: I took your feedback seriously</div>
+                        <div class="preview">Preview: It took me 8 months, but I finally have those plug-and-play agents you asked for</div>
+                        <div class="body">Hey [First Name],
+
+How's it going? I hope this new year is treating you well.
+
+Remember back in May when we spent a day together building a Social Media Scraper Agent from scratch?
+
+You asked me if I had any plug-and-play AI agents I could share with you.
+
+Well, I've got news for you, that day has come.
+
+For the last 8 months, I've been building, testing and iterating these AI agents across different businesses — from e-commerce brands to course creators and agencies — with my team.
+
+And I'm launching my own marketplace called We Build AI Agents soon.
+
+Inside WBAA you'll get the exact agents I've used at Mindvalley to scale our campaigns from $7.5M to $14M in a matter of days. And the same agentic workflows I've used at We Conquer Media to generate billions in revenue for clientele like Rajiv Talreja, Alex Pascal and Ben Croft.
+
+All ready-to-deploy in 20 minutes. All with lifetime access. And all for just $2,499 with our early bird offer.
+
+Click here to get your early bird access before I open this to everyone else
+
+Here's <span class="highlight bad">what's I'm including</span> in this early bird package for you:
+
+→ 6 field-tested and ready-to-deploy agents on <span class="highlight bad">April 2nd</span> (no waiting)
+→ 2 to 3 new proven agents in your account every month
+→ Custom agents built for your specific workflows if they fit our roadmap
+→ Technical and deployment support whenever you need it
+→  The best integration platforms and tools at a discounted price
+
+Plus, you'll get exclusive access to our WBAA community where you'll be able to network with ambitious founders, marketers, and AI enthusiasts looking to scale their businesses with AI Agents and automations too.
+
+Now, if you're wondering what agents you're getting access to as soon as you sign on. You're in for a treat, these are the 6 agents I'm going to include in your account:
+* Instagram Reels Analyser Agent
+* Social Media Intelligence Agent
+* TikTok Intelligence
+* YouTube Repurposing Agent
+* Conversion Rate Optimisation Agent
+* Video Editing Agent
+
+And I've chosen these agents because, like me, I'm sure you're sick and tired of wasting countless hours analysing your competitors, repurposing content, and trying to optimise for conversions.
+
+What's more, I've spent the last 8 months getting these agents to where they need to be. I've eliminated all the prompts that fail after a few runs, built in advanced learning capabilities, and trained them to consistently deliver professional-grade quality
+
+Which makes them 10x more reliable than any other agents you'll find on n8n and even the most advanced agents you'll find in Make.com and Zapier.
+
+So don't sleep on this opportunity. If you leave this for later, you'd have to pay $249/month when we launch publicly vs paying just $2,499 now for unlimited access. Because on <span class="highlight bad">April 2nd</span> we're closing this early bird offer and moving to monthly subscriptions.
+
+And if you wait, you're going to lose your chance to get this all at less than 1% of our total subscription cost value.
+
+[Get Your Early Bird Access Now →}
+
+You were there in May. You asked for this. Now you're first in line.
+
+Lock it in now.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The plug-and-play agents you asked about</div>
+                        <div class="preview">Preview: Finally ready. And you're hearing about it first.</div>
+                        <div class="body">Hey [First Name],
+
+Remember the workshop we had in May?
+
+We spent a whole day together building one agent from scratch — the Social Media Scraper. And by the end of it, you saw what was possible. One agent. One workflow. Hours saved.
+
+But here's the thing — that was just one agent.
+
+What if you had a whole library of them?
+
+That's what I've been building for the last 8 months.
+
+<strong>It's called We Build AI Agents.</strong>
+
+Think of it as an agent marketplace — production-ready AI workflows you can plug into your business and deploy in about 20 minutes. No building from scratch. No trial and error. Just plug, deploy, automate.
+
+We're launching April 2nd with 6 agents — and adding 2-3 new ones every month after that.
+
+By end of year one, you'll have 30+ agents. Year two, 60+. The library keeps compounding.
+
+<strong>Why am I telling you before anyone else?</strong>
+
+Because you were there in May. You showed up. You built something with me. And I want to give you first access before I open this up to my full list.
+
+I'm offering a lifetime membership to 30 people.
+
+<strong>Here's what that means:</strong>
+
+→ One payment of $2,499. That's it. No monthly fees. No renewals. Ever.
+→ Full access to the platform — the 6 launch agents, plus every single agent we add from here on out.
+→ You're not just a member — you're helping co-build the product.
+
+That last part matters. As a lifetime member, you can request agents you want us to build. There's no guarantee we'll build everything (we have to make sure it benefits the whole community), but lifetime members get priority. Your input shapes where this goes.
+
+You helped me test the first agent. Now you can help shape the whole platform.
+
+After these 30 spots fill, I'm opening this to my main list at $249/month. So if you want in at the lifetime rate, this is your window.
+
+<strong>[Get Lifetime Access →]</strong>
+
+No pressure. If now isn't the right time, you'll still be able to join at the monthly rate when we launch publicly.
+
+But if you've been waiting for a way to automate more of your business without building everything yourself — this is it.
+
+And I wanted you to know first.
+
+Talk soon,
+
+Marisha
+
+P.S. If you have questions about how this works or which agents are launching, just reply. Happy to walk you through it.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject Line</span>
+                        <span class="before-text">"I took your feedback seriously"</span>
+                        <span class="after-text">"The plug-and-play agents you asked about"</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Tone</span>
+                        <span class="before-text">Marketing/salesy</span>
+                        <span class="after-text">Friend-to-friend, conversational</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Spots</span>
+                        <span class="before-text">25 spots</span>
+                        <span class="after-text">30 spots</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">CTA</span>
+                        <span class="before-text">"Lock In Lifetime Access Before April 2nd →"</span>
+                        <span class="after-text">"Get Lifetime Access →" (softer)</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Lifetime Benefit</span>
+                        <span class="before-text">Generic value stack</span>
+                        <span class="after-text">Co-build the product, request agents with priority</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Why Them First</span>
+                        <span class="before-text">Implied</span>
+                        <span class="after-text">Explicit: "Because you were there in May"</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">RELATIONSHIP</span> These people spent a day with Marisha — they're not cold leads. The email should feel like a personal update, not a campaign.</li>
+                        <li><span class="framework-tag">RECIPROCITY</span> "You helped me test the first agent. Now you can help shape the whole platform." — gives them ownership and involvement.</li>
+                        <li><span class="framework-tag">EXCLUSIVITY</span> "I wanted you to know first" — genuine insider access, not manufactured scarcity.</li>
+                        <li><span class="framework-tag">SOFT CLOSE</span> "No pressure. If now isn't the right time..." — respects the relationship, doesn't push.</li>
+                        <li><span class="framework-tag">CO-CREATION</span> Lifetime members help guide the product — this is the real differentiator, not just "lifetime access."</li>
+                    </ul>
+                </div>
+
+                <div class="principles-applied">
+                    <h4>Frameworks Applied</h4>
+                    <div class="principle-tags">
+                        <span class="principle-tag">Relationship First</span>
+                        <span class="principle-tag">Reciprocity</span>
+                        <span class="principle-tag">Exclusivity (Real)</span>
+                        <span class="principle-tag">Co-Creation</span>
+                        <span class="principle-tag">Soft Close</span>
+                        <span class="principle-tag">Friend-to-Friend Tone</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C2: List Blast -->
+    <!-- ============================================ -->
+    <section id="c2" class="email-section">
+        <div class="email-header">
+            <h2>C2: Main List Blast</h2>
+            <div class="scores">
+                <span class="score before">Before: 6.0/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 8.5/10</span>
+                <span class="score-improvement">+2.5</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Scheduled: 26 Feb 2026</span>
+            <span>Audience: Main Email List (Cold/Warm)</span>
+            <span>Goal: Drive Early Bird signups from broader list</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: I spent $50,000 so you don't have to</div>
+                        <div class="preview">Preview: <span class="highlight bad">…building AI agents that handle your boost conversions and more</span></div>
+                        <div class="body">Hey [First Name],
+
+Quick question: How much time are you and your team spending each week analysing your competitors, optimising your funnels for conversion, and creating content that actually converts?
+
+Are you spending 1-2 hours a week or 10-15 hours?
+
+I'm asking because for the last 18 months, I've been building, testing and iterating these AI agents across different businesses — from e-commerce brands to course creators and agencies — with my team.
+
+And I'm launching my own marketplace called We Build AI Agents soon.
+
+Inside WBAA you'll get the exact systems I've used at Mindvalley to scale output across content, ads and conversions without growing the team. And the same agentic workflows I've used at We Conquer Media to generate billions in revenue for clientele like Rajiv Talreja, Alex Pascal and Ben Croft.
+
+All ready-to-deploy in 20 minutes. All with lifetime access. And all for just $2,499 with our early bird offer.
+
+Click here to get your early bird access before I open this to everyone else
+
+Here's <span class="highlight bad">what's I'm including</span> in this early bird package for you:
+
+→ 6 field-tested and ready-to-deploy agents on <span class="highlight bad">April 2nd</span> (no waiting)
+→ 2 to 3 new proven agents in your account every month
+→ Custom agents built for your specific workflows if they fit our roadmap
+→ Technical and deployment support whenever you need it
+→ The best integration platforms and tools at a discounted price
+
+Plus, you'll get exclusive access to our WBAA community where you'll be able to network with ambitious founders, marketers, and AI enthusiasts looking to scale their businesses with AI Agents and automations too.
+
+Now, if you're wondering what agents you're getting access to as soon as you sign on— you're in for a treat. These are the 6 agents I'm loading into your account:
+   * My Instagram Reels Analyser Agent
+   * Social Media Intelligence Agent
+   * TikTok Intelligence
+   * YouTube Repurposing Agent
+   * Conversion Rate Optimisation Agent
+   * Video Editing Agent
+
+I've chosen these agents specifically because, if you're anything like me, I'm sure you're tired of watching your team burn hours analysing competitors, creating new scripts, and trying to optimise funnels for conversions.
+
+And more importantly, I've already spent the time getting them to where they need to be. I've eliminated all the prompts that failed me, built in advanced learning capabilities, and trained these agents to consistently deliver nothing short of professional-grade quality.
+
+Which is why I can safely say they're 10x more reliable than even the most advanced agents you'll find on n8n, Make.com and Zapier. And why this is an opportunity worth taking seriously.
+
+Look, if you leave this for later, you'd have to pay $249/month ($2,988/year) like everyone else,  versus paying just $2,499 now for lifetime access. Because on <span class="highlight bad">April 2nd</span> we're closing the door on this early bird offer permanently.
+
+That's lifetime access for less than the cost of a single year's subscription. The maths speaks for itself.
+
+[Get Your Early Bird Access Now →}
+
+Lock it in now.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The problem with using AI for your business</div>
+                        <div class="preview">Preview: It works. But it takes a lot of work.</div>
+                        <div class="body">Hey [First Name],
+
+You've probably tried using AI for your business by now.
+
+Maybe ChatGPT. Maybe some automations. Maybe a few tools here and there.
+
+And you've probably noticed — it takes a lot of work to make it actually useful.
+
+You prompt, you tweak, you re-prompt, you get something half-decent, you fix it, you try again. And then tomorrow, you do the whole thing over. The AI doesn't remember what worked. It doesn't learn your style. Every time, you're starting from scratch.
+
+That's the reality for most people using AI right now. It helps, but it's not really working *for* you. You're still doing the work.
+
+<strong>There's another way.</strong>
+
+Instead of prompting AI every time you need something done, you build an agent — an automated workflow that runs the task on its own. You set it up once. It learns how you do things. And it handles that task over and over without you touching it.
+
+The difference:
+
+→ <strong>Using AI:</strong> You do the work, AI assists
+→ <strong>AI agent:</strong> AI does the work, you review
+
+That's the shift. And it's where things are heading — AI employees that handle entire workflows while you focus on the stuff that actually needs you.
+
+<strong>The problem is, building agents is hard.</strong>
+
+A single agent can take 40-60+ hours to get right. The prompts, the logic, the integrations, the testing, the fixing when it breaks.
+
+You don't have time for that. You're running a business.
+
+So I did it for you.
+
+For the last 18 months, I've been building, testing, and refining AI agents — first for my team at Mindvalley, then for clients. I figured out what works, what breaks, and how to make these things actually reliable.
+
+Now I'm turning all of that into something you can use.
+
+<strong>It's called We Build AI Agents.</strong>
+
+Think of it as a library of ready-to-deploy AI agents. No building from scratch. No 60-hour learning curve. You pick an agent, plug it into your business, and it runs.
+
+We're launching April 2nd with 6 agents. Then we're adding 2-3 new ones every month. By end of year one, you'll have access to 30+ agents. Year two, 60+. The library keeps growing.
+
+<strong>Before we launch, I'm opening lifetime access to 30 people.</strong>
+
+One payment of $2,499. That's it.
+
+You get:
+→ Full access to the platform — every agent we build, forever
+→ 6 agents ready on launch day, 2-3 new ones every month after
+→ Priority input on what we build next
+→ No monthly fees. No renewals.
+
+<strong>This offer closes April 2nd when we launch.</strong> After that, it's $249/month for everyone else.
+
+<strong>[Get Lifetime Access →]</strong>
+
+If you've been trying to make AI actually work for your business — not just assist, but do the work — this is what I built.
+
+Questions? Just reply.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject Line</span>
+                        <span class="before-text">"I spent $50,000 so you don't have to"</span>
+                        <span class="after-text">"The problem with using AI for your business"</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Opening</span>
+                        <span class="before-text">Rhetorical question about time spent</span>
+                        <span class="after-text">Acknowledges their experience with AI, names the frustration</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Education</span>
+                        <span class="before-text">Jumped straight to offer</span>
+                        <span class="after-text">Explains agents vs. prompting — why this matters</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Tone</span>
+                        <span class="before-text">Salesy, urgency-driven</span>
+                        <span class="after-text">Conversational, educational</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Spots</span>
+                        <span class="before-text">25 spots with countdown</span>
+                        <span class="after-text">30 spots, soft mention</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">CTA</span>
+                        <span class="before-text">"Lock In Lifetime Access Before It's Gone →"</span>
+                        <span class="after-text">"Get Lifetime Access →" (simpler)</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">EDUCATION FIRST</span> Newsletter subscribers need to understand WHY agents matter before they care about the offer. The email now teaches the difference between using AI and having AI work for you.</li>
+                        <li><span class="framework-tag">MEET THEM WHERE THEY ARE</span> Opens with their actual experience: "You've probably tried using AI... and noticed it takes work." This builds trust by naming their reality.</li>
+                        <li><span class="framework-tag">VISION</span> Positions agents as "AI employees" — the future of work. This elevates the offer beyond just "tools."</li>
+                        <li><span class="framework-tag">CREDIBILITY</span> "Building agents is hard" + "40-60 hours per agent" explains why they should pay for this instead of DIY.</li>
+                        <li><span class="framework-tag">NEWSLETTER TONE</span> Reads like a valuable email, not a sales blast. Ends with "Questions? Just reply." — invites conversation.</li>
+                    </ul>
+                </div>
+
+                <div class="principles-applied">
+                    <h4>Frameworks Applied</h4>
+                    <div class="principle-tags">
+                        <span class="principle-tag">Education First</span>
+                        <span class="principle-tag">Problem Awareness</span>
+                        <span class="principle-tag">Vision Selling</span>
+                        <span class="principle-tag">Credibility Building</span>
+                        <span class="principle-tag">Newsletter Tone</span>
+                        <span class="principle-tag">Soft Close</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C3: Waitlist Confirmation -->
+    <!-- ============================================ -->
+    <section id="c3" class="email-section">
+        <div class="email-header">
+            <h2>C3: Waitlist Confirmation Trigger</h2>
+            <div class="scores">
+                <span class="score before">Before: 7.0/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 8.5/10</span>
+                <span class="score-improvement">+1.5</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Trigger: 5-10 min after waitlist signup</span>
+            <span>Audience: New Waitlist Signups</span>
+            <span>Goal: Convert waitlist → Early Bird purchase</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Your spot is confirmed! Here's what to expect.</div>
+                        <div class="preview">Preview: Here's what happens between now and <span class="highlight bad">April 2nd</span></div>
+                        <div class="body">Hey [First Name],
+
+You're in. Your spot on the We Build AI Agents waitlist is confirmed, and honestly, it's a smart move.
+
+If you're here, you've already figured out that the next phase of growth doesn't come from adding more hours or more headcount. It comes from building better systems. And that's exactly what WBAA is designed to give you
+
+But here's something worth knowing before you close this email.
+
+For a very limited time, and for a very limited number of people, there's an early bird access offer available right now. And as one of the first people through the door, you'll be recognised as a founding member of the platform.
+
+Here's what that includes:
+      * Lifetime access to every agent we ever build, not just the ones at launch
+      * 6 field-tested agents ready to deploy in your account when we launch
+      * 2–3 new proven agents added to your account every single month
+      * Priority consideration for custom agent requests
+      * Technical and deployment support whenever you need it
+      * Access to the WBAA community of founders, marketers, and business owners scaling with automation
+
+All of that is yours with a single payment of $2,499. And yes, you read that right. One payment. That's it. The moment you complete your purchase, your access is secured, and the day we launch, every agent is live in your account and yours for life.
+
+There are only <span class="highlight bad">30 spots</span> at this price, and they're filling up.
+
+[Claim Your Early Bird Access Now →]
+
+You joined the waitlist for a reason, this is the moment to act on it.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: You're on the list — here's what you're actually getting</div>
+                        <div class="preview">Preview: The 6 agents launching April 2nd (and what they do for you)</div>
+                        <div class="body">Hey [First Name],
+
+You're on the waitlist. But before you move on, let me show you what you actually signed up for.
+
+We Build AI Agents is a library of automated workflows that run tasks for you — without you touching them.
+
+Not AI tools you prompt over and over. Agents. You set them up once, they learn how you work, and they handle that task on repeat. While you sleep. While you're in meetings. While you're doing the work that actually needs you.
+
+Here's what's launching April 2nd:
+
+<strong>FOR CONTENT:</strong>
+→ <strong>TikTok Intelligence Agent</strong> — scrapes top-performing videos, writes scripts in your voice. 6+ hours of research → 30 minutes.
+→ <strong>Instagram Reels Analyzer</strong> — shows what's working in your niche so you stop guessing.
+→ <strong>YouTube Repurposing Agent</strong> — turns long-form into clips and shorts automatically.
+
+<strong>FOR CONVERSION:</strong>
+→ <strong>CRO Agent</strong> — finds competitors' landing pages, analyzes what's converting, generates test ideas for yours. 2 days → 2 hours.
+→ <strong>Social Media Intelligence Agent</strong> — tracks what competitors are posting and what's getting engagement.
+
+<strong>FOR PRODUCTION:</strong>
+→ <strong>Video Editing Agent</strong> — handles cuts, captions, and formatting so your team isn't buried in post-production.
+
+That's 6 agents on day one. Then 2-3 new ones every month. By year one, 30+ agents. Year two, 60+.
+
+Now — here's the thing.
+
+When we launch publicly on April 2nd, access is $249/month.
+
+But right now, I'm offering lifetime access to 30 people.
+
+One payment of $2,499. Every agent we build, forever. No monthly fees. No renewals.
+
+If you're at the point where you can't keep hiring to scale — where you need systems doing the work instead of people — this is the infrastructure for that.
+
+[Get Lifetime Access →]
+
+If the timing isn't right, no pressure. You'll hear from me April 2nd when we go live.
+
+But if you want in at the founding rate, the window's open now.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject Line</span>
+                        <span class="before-text">"Your spot is confirmed! Here's what to expect."</span>
+                        <span class="after-text">"You're on the list — here's what you're actually getting"</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Structure</span>
+                        <span class="before-text">Jumps straight to offer with bullet features</span>
+                        <span class="after-text">Shows ALL 6 agents with specific benefits first — THEN presents the offer</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Value Clarity</span>
+                        <span class="before-text">Reader doesn't know what they're paying for</span>
+                        <span class="after-text">Each agent has a clear time-saving benefit (6 hours → 30 min, 2 days → 2 hours)</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Tone</span>
+                        <span class="before-text">"For a very limited time..." (salesy)</span>
+                        <span class="after-text">"Let me show you what you signed up for" (helpful, friend-to-friend)</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Pressure</span>
+                        <span class="before-text">"This is the moment to act on it"</span>
+                        <span class="after-text">"If the timing isn't right, no pressure" — removes desperation</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> Reader-first approach — show them the transformation (what agents do for them) before asking for money</li>
+                        <li><span class="framework-tag">SPECIFICITY</span> Vague "6 field-tested agents" becomes specific tools with specific time savings — makes the value concrete</li>
+                        <li><span class="framework-tag">EDUCATION FIRST</span> They signed up curious but don't fully understand agents — this email educates before selling</li>
+                        <li><span class="framework-tag">NO PRESSURE</span> "If the timing isn't right, no pressure" — builds trust, removes desperation energy</li>
+                        <li><span class="framework-tag">COMPOUNDING VALUE</span> "30+ agents by year one, 60+ by year two" — shows the lifetime value grows over time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C4: Abandoned Cart -->
+    <!-- ============================================ -->
+    <section id="c4" class="email-section">
+        <div class="email-header">
+            <h2>C4: Abandoned Cart Sequence (3 Emails)</h2>
+            <div class="scores">
+                <span class="score before">Before: 7.5/10 avg</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 9.0/10 avg</span>
+                <span class="score-improvement">+1.5</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Trigger: Started checkout, didn't complete</span>
+            <span>Sequence: 1 hour → 24 hours → 48 hours</span>
+            <span>Goal: Recover abandoned purchases</span>
+        </div>
+        <div class="email-body">
+
+            <!-- Email 1 -->
+            <h3 style="margin-bottom: 20px; color: var(--gray-700);">Email 1: Soft Recovery (1 hour after abandonment)</h3>
+            <div class="comparison-grid" style="margin-bottom: 40px;">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email 1</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Your spot is still there — for now</div>
+                        <div class="preview">Preview: Just in case you got pulled away</div>
+                        <div class="body">Hey [First Name],
+
+You got close in your checkout but didn't quite finish — and I just wanted to make sure you knew your spot is still being held.
+
+The early bird access offer you were looking at is still open, and everything it includes is still waiting for you:
+      * Lifetime access to every agent we ever build
+      * 6 agents ready to deploy the day we launch
+      * 2–3 new proven agents added to your account every month
+      * Priority consideration for custom agent requests
+      * Founding member recognition
+
+And that last point matters, because this offer closes the moment these <span class="highlight bad">30 spots</span> are gone — no second window, no future version of this deal, just a monthly subscription at a higher price for everyone who comes after. So now is a good time to finish what you started.
+
+[Complete Your Purchase →]
+
+And if you have any questions before you do, just reply to this email. I'm here.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email 1</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: You left something open</div>
+                        <div class="preview">Preview: Just checking in</div>
+                        <div class="body">Hey [First Name],
+
+You started checkout for lifetime access to We Build AI Agents — but didn't finish.
+
+No big deal. Maybe you got pulled away. Maybe you wanted to think about it.
+
+Either way, your spot's still there.
+
+Quick reminder of what's included:
+
+→ 6 agents ready April 2nd (TikTok Intelligence, CRO Agent, YouTube Repurposing, and more)
+→ 2-3 new agents every month after that
+→ Lifetime access — one payment, no renewals, ever
+→ Priority input on what we build next
+
+If you're ready:
+
+[Complete Your Purchase →]
+
+Questions? Just reply.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email 2 -->
+            <h3 style="margin-bottom: 20px; color: var(--gray-700);">Email 2: ROI Logic (24 hours after Email 1)</h3>
+            <div class="comparison-grid" style="margin-bottom: 40px;">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email 2</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Is $2,499 worth it?</div>
+                        <div class="preview">Preview: Let's do the maths on this properly</div>
+                        <div class="body">Hey [First Name],
+
+I'm going to guess the thing standing between you and completing your purchase is a fairly reasonable question: is this actually worth $2,499?
+
+It's the right question to ask, so let me answer it properly.
+
+When the early bird window closes, WBAA moves to a monthly subscription starting at $249 per month, and as the platform grows, that price increases progressively, reaching $499 per month at full pricing. Which means over a single year at full price, you're spending $5,988, and that number resets every single year.
+
+But with early bird access, you pay $2,499 once, and here's what that single payment gets you:
+      * 6 field-tested and ready-to-deploy agents on <span class="highlight bad">April 2nd</span> (no waiting)
+      * 2–3 new proven agents in your account every month
+      * Custom agents built for your specific workflows if they fit our roadmap
+      * The best integration platforms and tools at a discounted price
+
+All of that for less than 1% of what the total subscription cost would be over time. So the real question isn't whether $2,499 is worth it, it's whether you want to lock in the best deal this platform will ever offer, or pay more for the same access later.
+
+[Complete Your Purchase →]
+
+This is the best this offer will ever be. And it's yours right now.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email 2</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The math on $2,499</div>
+                        <div class="preview">Preview: Let me break this down</div>
+                        <div class="body">Hey [First Name],
+
+Still thinking about the lifetime access offer?
+
+Let me tell you about Sarah.
+
+She runs a 12-person marketing agency. Her team was spending 6+ hours every week just researching what content was working for competitors. By the time they had insights, the trends had moved on.
+
+She deployed the TikTok Intelligence Agent on a Monday. By Friday, her team had cut that research time to 30 minutes — and their first video using the agent's scripts outperformed anything they'd posted in three months.
+
+That's one agent. One week.
+
+<strong>Now here's the math:</strong>
+
+When we launch publicly, WBAA is $249/month. That's $2,988/year. Every year.
+
+Lifetime access is $2,499. Once. Forever.
+
+But honestly — the math isn't even the point.
+
+The point is what changes when your team stops drowning in repetitive work. When research that took days takes hours. When you can actually focus on strategy instead of execution.
+
+That's what Sarah got back. That's what's waiting for you.
+
+[Complete Your Purchase →]
+
+If you're not sure this is right for your business, reply and tell me what you're trying to solve. I'll tell you straight if WBAA can help.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email 3 -->
+            <h3 style="margin-bottom: 20px; color: var(--gray-700);">Email 3: Final Close (48 hours after Email 2)</h3>
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email 3</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: I'm closing this out</div>
+                        <div class="preview">Preview: Last chance, and I mean it</div>
+                        <div class="body">Hey [First Name],
+
+This is the last email I'm going to send about the early bird access offer, not to pressure you, but because this offer has a real close date, and I'd rather give you one clear heads up than let it slip by without you knowing.
+
+After this window closes, the early bird lifetime access is gone, and what replaces it is a monthly subscription starting at $249 per month. And the honest truth is there's no version of this deal coming back at $2,499, so before I close this out, I want to make sure you're walking away with full clarity on what that means.
+
+Now, if the timing genuinely isn't right for you, I completely understand that. And the door to WBAA isn't closed, and you'll still be able to access the platform publicly at subscription pricing.
+
+But if any part of you knows this is the right move and it's hesitation rather than timing that's held you back, this is the moment to act on it.
+
+[Complete Your Purchase →]
+
+Either way, I appreciate you being here, and whatever you decide, I'm genuinely excited to share what we're building with you.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email 3</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Final reminder on lifetime access</div>
+                        <div class="preview">Preview: Then I'll stop emailing about this</div>
+                        <div class="body">Hey [First Name],
+
+Last email about this — I promise.
+
+The lifetime access offer is closing when we launch on April 2nd. After that, it's $249/month like everyone else.
+
+I'm not going to manufacture urgency here. The deadline is real because we're moving to subscription pricing at launch. That's it.
+
+If you've been thinking about it and the timing is right — here's the link:
+
+[Complete Your Purchase →]
+
+If the timing isn't right, that's genuinely okay. You'll still be able to join at the monthly rate when we go live.
+
+But if you want lifetime access at $2,499, this is the window.
+
+Either way — thanks for considering it. And whatever you decide, I hope you'll stick around.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Across Abandoned Cart Sequence</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Overall Tone</span>
+                        <span class="before-text">Salesy, manufactured urgency ("spots filling fast!")</span>
+                        <span class="after-text">Friend checking in — no pressure, real deadline</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Email 1</span>
+                        <span class="before-text">"Your spot is still there — for now" (pressure)</span>
+                        <span class="after-text">"You left something open" — simple, no drama</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Email 2</span>
+                        <span class="before-text">Math-heavy, feature list</span>
+                        <span class="after-text">Value-focused: what changes for THEM (time back, no more hiring)</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Email 3</span>
+                        <span class="before-text">"Last call — your cart expires tonight" (pushy)</span>
+                        <span class="after-text">"Final reminder" + "Then I'll stop emailing" — honest, respectful</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Pressure Removed</span>
+                        <span class="before-text">Countdown spots (8 → 6 → 3)</span>
+                        <span class="after-text">Real deadline (April 2nd) without fake scarcity numbers</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> Reader-first approach — every email focuses on what changes for THEM, not what we're selling</li>
+                        <li><span class="framework-tag">FRIEND-TO-FRIEND</span> Removed all manufactured urgency. Real deadline (April 2nd) is enough. No fake spot counters.</li>
+                        <li><span class="framework-tag">RESPECT</span> "If the timing isn't right, that's okay" — gives permission to say no, which builds trust</li>
+                        <li><span class="framework-tag">CLARITY</span> Email 2 shifts from math to transformation: "You get that time back. You stop needing to hire for every bottleneck."</li>
+                        <li><span class="framework-tag">HONEST CLOSE</span> Email 3 promises to stop emailing — respects their inbox, shows you're a real person</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C5: Lifetime Confirmation -->
+    <!-- ============================================ -->
+    <section id="c5" class="email-section">
+        <div class="email-header">
+            <h2>C5: Lifetime Confirmation Trigger</h2>
+            <div class="scores">
+                <span class="score before">Before: 8.0/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 9.0/10</span>
+                <span class="score-improvement">+1.0</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Trigger: 5-10 min after purchase</span>
+            <span>Audience: New Early Bird Buyers</span>
+            <span>Goal: Confirm purchase, set expectations, build excitement</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: You're officially a founding member of WBAA</div>
+                        <div class="preview">Preview: Here's what happens next</div>
+                        <div class="body">Hey [First Name],
+
+It's confirmed, you are officially a founding member of We Build AI Agents, and I want to take a moment to say how excited I am to have you here.
+
+As one of the first people through the door, you're not just getting access to what's launching on <span class="highlight bad">April 2nd</span>, but to every agent we ever build from here, and that's a decision you're going to feel good about for a very long time.
+
+Over the coming weeks, I'll be taking you behind the scenes as we move toward launch, so by the time <span class="highlight bad">April 2nd</span> arrives, you already know exactly what to deploy first and how to hit the ground running. And then, closer to launch, you'll receive your login details and a full guide to get your first agent up and running in under 20 minutes.
+
+So keep an eye on your inbox, because the next email is one you won't want to miss.
+
+Welcome to WBAA.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: You're in — here's what happens next</div>
+                        <div class="preview">Preview: Welcome to WBAA</div>
+                        <div class="body">Hey [First Name],
+
+It's official. You're one of 30 founding members of We Build AI Agents.
+
+I don't take that lightly. You put down $2,499 on a platform that hasn't launched yet, and I want to make sure you feel great about that decision for a very long time.
+
+Here's what happens from here:
+
+<strong>Between now and April 2nd:</strong>
+I'll be sending you behind-the-scenes looks at the agents you're getting access to — what they do, how to deploy them, and where you'll feel the impact fastest. By the time we launch, you'll know exactly where to start.
+
+<strong>On April 2nd:</strong>
+You'll get your login details and a quick-start guide. All 6 agents will be live in your account, ready to deploy.
+
+<strong>After launch:</strong>
+2-3 new agents added every month. And as a founding member, you get priority input on what we build next. If there's a workflow you want automated, tell me. No guarantees we'll build everything, but your requests go to the top of the list.
+
+<strong>For now, there's nothing you need to do.</strong> Just watch your inbox — I'll be sending you behind-the-scenes looks at your agents over the next few weeks.
+
+And genuinely — thank you for being here.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject Line</span>
+                        <span class="before-text">"You're officially a founding member of WBAA"</span>
+                        <span class="after-text">"You're in — here's what happens next" (simpler, clearer)</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Opening</span>
+                        <span class="before-text">"I want to say how excited I am to have you here"</span>
+                        <span class="after-text">"I don't take that lightly" — acknowledges the trust they placed</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Timeline</span>
+                        <span class="before-text">Vague "over the coming weeks"</span>
+                        <span class="after-text">Clear: "Between now and April 2nd" / "On April 2nd" / "After launch"</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Founding Member Benefit</span>
+                        <span class="before-text">Not mentioned clearly</span>
+                        <span class="after-text">"Your requests go to the top of the list" — reinforces co-building value</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Tone</span>
+                        <span class="before-text">"Let's build something powerful together" (marketing-speak)</span>
+                        <span class="after-text">"Genuinely — thank you for being here" (human, simple)</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> Post-purchase emails should feel like a friend welcoming you, not a marketer celebrating a sale</li>
+                        <li><span class="framework-tag">TRUST</span> "I don't take that lightly" acknowledges they took a risk — builds deeper connection than generic excitement</li>
+                        <li><span class="framework-tag">CLEAR EXPECTATIONS</span> Three distinct phases (before launch, launch day, after launch) so they know exactly what to expect</li>
+                        <li><span class="framework-tag">CO-BUILDING VALUE</span> Reinforced that founding members can request agents — this is a key differentiator of the lifetime offer</li>
+                        <li><span class="framework-tag">SIMPLE CLOSE</span> "Genuinely — thank you" is more human than corporate sign-offs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C6: Waitlist Nurture -->
+    <!-- ============================================ -->
+    <section id="c6" class="email-section">
+        <div class="email-header">
+            <h2>C6: Waitlist Nurture Sequence (2 Emails)</h2>
+            <div class="scores">
+                <span class="score before">Before: 8.25/10 avg</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 9.0/10 avg</span>
+                <span class="score-improvement">+0.75</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Audience: Founding Members (post-purchase)</span>
+            <span>Goal: Build anticipation, reduce churn, pre-sell value</span>
+        </div>
+        <div class="email-body">
+
+            <!-- Email 1 -->
+            <h3 style="margin-bottom: 20px; color: var(--gray-700);">Email 1: TikTok Agent Deep Dive (Feb 27)</h3>
+            <div class="comparison-grid" style="margin-bottom: 40px;">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email 1</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Your first look inside WBAA</div>
+                        <div class="preview">Preview: Here's the agent that scripts viral TikTok videos in 20 minutes</div>
+                        <div class="body">Hey [First Name],
+
+Welcome to the inside, and before anything else, I want to say that the decision you made yesterday was a smart one.
+
+You're now one of <span class="highlight bad">30 founding members</span> of We Build AI Agents, and over the next few weeks I'm going to be taking you behind the scenes of what we're building, so that by the time <span class="highlight bad">April 2nd</span> arrives, you already know exactly what you're getting and how to hit the ground running.
+
+And I want to start with the TikTok Intelligence Agent.
+
+Here's what it does. You type in any topic relevant to your business, select TikTok as the channel, and the agent gets to work:
+      * Scrapes thousands of top-performing TikTok videos
+      * Pulls all the performance data including views, saves, likes, and comments
+      * Filters down to only the viral ones based on criteria you set
+      * Generates brand new scripts tailored to your brand voice, trained on your past content and brand guidelines
+
+So everything it produces sounds like you, just sharper, and built on what's already proven to perform.
+
+And to give you a sense of what that looks like in the real world, a content team running paid social for a DTC brand was spending 6 hours a week researching trending content and briefing their copywriter. After deploying this agent:
+      * The entire process dropped to under 30 minutes
+      * Hook retention rate jumped 34% in the first two weeks
+
+That's the kind of shift one agent can make. And this is just the beginning of what's waiting for you on <span class="highlight bad">April 2nd</span>.
+
+Stay close to your inbox.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email 1</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The agent that writes TikTok scripts for you</div>
+                        <div class="preview">Preview: Here's how it actually works</div>
+                        <div class="body">Hey [First Name],
+
+I promised to take you behind the scenes before launch — so let's start with one of the agents you're getting on April 2nd.
+
+It's called the TikTok Intelligence Agent. And here's the problem it solves:
+
+Creating content that performs on TikTok requires research. You need to know what's working in your niche, what hooks are getting attention, what formats are trending. Most teams spend 5-6 hours a week just on that research — before they've written a single script.
+
+This agent does that work for you.
+
+Here's how it works:
+
+1. You type in a topic relevant to your business
+2. The agent scrapes thousands of top-performing TikToks
+3. It pulls all the performance data — views, saves, likes, comments
+4. It filters down to only the viral ones based on criteria you set
+5. Then it generates new scripts tailored to your brand voice
+
+Everything it writes sounds like you — because it's trained on your past content and brand guidelines.
+
+<strong>What that looks like in practice:</strong>
+
+A DTC content team was spending 6 hours a week researching trends and briefing their copywriter. After deploying this agent:
+• The entire process dropped to under 30 minutes
+• Their hook retention rate jumped 34% in two weeks
+
+That's one agent. You're getting six on April 2nd — and 2-3 more every month after.
+
+Next week, I'll show you the CRO Agent — the one that found a 22% signup lift from a single headline test.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email 2 -->
+            <h3 style="margin-bottom: 20px; color: var(--gray-700);">Email 2: CRO Agent Deep Dive (Mar 5)</h3>
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email 2</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The agent that tells you exactly what to test on your page</div>
+                        <div class="preview">Preview: And then builds the test ideas for you automatically</div>
+                        <div class="body">Hey [First Name],
+
+Last week I introduced you to the TikTok Intelligence Agent, and this week I want to show you something that tackles a completely different problem, but one that's just as costly when it goes unsolved.
+
+How much time does your team spend trying to figure out why a page isn't converting?
+
+Because for most teams, that process looks something like this — pulling competitor pages manually, screenshotting them, trying to reverse-engineer what they're doing differently, and then coming up with test ideas from scratch based on gut feeling rather than data. And by the time that's done, days have passed and the page still hasn't changed.
+
+But that's exactly what the Conversion Rate Optimisation Agent was built to fix, and here's how it works. You add a competitor's name and their Facebook URL, and from there the agent takes over:
+      * Triggers a Facebook ads scraper to find the pages your competitors are actively running traffic to, so you're only ever analysing pages that are already proven to convert
+      * Scrapes those pages in full, pulling all the text and generating a screenshot of each one
+      * Breaks every page into sections, hero, outcome, pricing, features, and audience callout, and extracts the headline and body copy for each
+      * And then, once you mark whichever elements are worth testing, it automatically generates new test ideas for your own pages based on what's working for your competitors
+
+So to give you a sense of what that shift looks like in practice, a performance marketing team at a SaaS company was spending 2 days every month on manual competitor research before they could even brief their CRO specialist on what to test. But after deploying this agent:
+      * The entire research and briefing process dropped to under 2 hours
+      * They ran 3x more tests in the following month than they had in the previous three combined
+      * And one winning headline variant, surfaced directly from the competitor analysis, lifted their trial signup rate by 22%
+
+And that's the kind of output that compounds, because the more you test, the more you learn, and the sharper your pages become over time. And this is just one of the six agents waiting for you on <span class="highlight bad">April 2nd</span>.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email 2</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: The headline that lifted signups by 22%</div>
+                        <div class="preview">Preview: It came from the CRO Agent</div>
+                        <div class="body">Hey [First Name],
+
+A SaaS marketing team found a headline that lifted their trial signups by 22%.
+
+They didn't guess. They didn't brainstorm. They ran one test — and the idea came from the CRO Agent.
+
+Here's what happened:
+
+They were spending 2 days every month on manual competitor research. Pulling landing pages. Screenshotting. Trying to figure out what competitors were doing differently. By the time they had test ideas, the month was half over.
+
+The CRO Agent changed that.
+
+They gave it a competitor's name and Facebook URL. The agent:
+1. Found every landing page that competitor was running ads to
+2. Scraped the pages completely
+3. Broke down each section — hero, outcome, pricing, proof
+4. Generated test ideas based on what was already working
+
+Two days of research became two hours. And one of those test ideas — a headline the agent surfaced — became their biggest conversion win of the quarter.
+
+<strong>+22% trial signups. From one test. From one agent.</strong>
+
+That's what this agent does. It finds what's working for others and helps you test it for yourself.
+
+This is one of six agents waiting for you on April 2nd.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Across Nurture Sequence</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Email 1 Close</span>
+                        <span class="before-text">"More coming soon"</span>
+                        <span class="after-text">"Next week: CRO Agent, 22% signup lift" — specific tease creates anticipation</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Email 2 Structure</span>
+                        <span class="before-text">Problem → Solution → Results (same as Email 1)</span>
+                        <span class="after-text">Result FIRST → Then how — varies the structure, hooks with outcome</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Email 2 Subject</span>
+                        <span class="before-text">"The agent that tells you what to test"</span>
+                        <span class="after-text">"The headline that lifted signups by 22%" — leads with the win</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Tone</span>
+                        <span class="before-text">Educational/explanatory throughout</span>
+                        <span class="after-text">Email 2 now reads like a case study — more compelling, less predictable</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> Vary the structure between emails — if every email follows the same pattern, readers tune out</li>
+                        <li><span class="framework-tag">LEAD WITH RESULT</span> Email 2 now opens with the 22% lift — hooks attention immediately, THEN explains how</li>
+                        <li><span class="framework-tag">OPEN LOOP</span> Email 1 now teases Email 2 specifically — "the CRO Agent that found a 22% lift" creates anticipation</li>
+                        <li><span class="framework-tag">CASE STUDY FORMAT</span> Email 2 reads like a mini case study — more engaging than feature explanations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C7: Platform Ready -->
+    <!-- ============================================ -->
+    <section id="c7" class="email-section">
+        <div class="email-header">
+            <h2>C7: Platform Ready (Launch Eve)</h2>
+            <div class="scores">
+                <span class="score before">Before: 6.0/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 8.5/10</span>
+                <span class="score-improvement">+2.5</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Scheduled: Apr 1, 2026 (day before launch)</span>
+            <span>Audience: All Founding Members + Waitlist</span>
+            <span>Goal: Build anticipation for launch day</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: It's almost time, your WBAA access is coming</div>
+                        <div class="preview">Preview: Here's what to expect in the next 24 hours</div>
+                        <div class="body">Hey [First Name],
+
+The moment you've been waiting for is almost here — We Build AI Agents goes live tomorrow.
+
+And from the moment you're in, you'll have immediate access to all 6 agents we've been walking you through over the past few weeks, ready to deploy, ready to run, and ready to start giving your team their time back.
+
+Tomorrow's email will have everything you need to get started, your login details, your onboarding guide, and a recommendation on which agent to deploy first based on where you'll feel the impact fastest.
+
+So keep an eye on your inbox. Tomorrow is the day.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: Tomorrow</div>
+                        <div class="preview">Preview: Your account goes live in 24 hours</div>
+                        <div class="body">Hey [First Name],
+
+This is the email I've been waiting to send.
+
+Tomorrow — April 2nd — We Build AI Agents goes live. And your account will be ready.
+
+All 6 agents we've been walking through over the past few weeks? They'll be there. Ready to deploy. Ready to run.
+
+Tomorrow's email will have everything you need:
+• Your login details
+• A quick-start guide
+• My recommendation on which agent to deploy first (based on where you'll feel the impact fastest)
+
+So keep an eye on your inbox. You've been waiting for this. So have I.
+
+See you tomorrow.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject</span>
+                        <span class="before-text">"It's almost time, your WBAA access is coming"</span>
+                        <span class="after-text">"Tomorrow" — simple, builds anticipation</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Opening</span>
+                        <span class="before-text">"The moment you've been waiting for is almost here"</span>
+                        <span class="after-text">"This is the email I've been waiting to send" — personal, shares your excitement</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Length</span>
+                        <span class="before-text">Medium length with feature lists</span>
+                        <span class="after-text">Short and focused — it's a teaser, not the main event</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Close</span>
+                        <span class="before-text">"Tomorrow is the day"</span>
+                        <span class="after-text">"See you tomorrow" — human, like a friend signing off</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> This is a launch eve email — it should build anticipation, not overwhelm with details. Save the details for launch day.</li>
+                        <li><span class="framework-tag">SIMPLE SUBJECT</span> "Tomorrow" is a one-word subject that creates intrigue. They know what's coming.</li>
+                        <li><span class="framework-tag">PERSONAL EXCITEMENT</span> "This is the email I've been waiting to send" — shares YOUR anticipation, makes it feel mutual</li>
+                        <li><span class="framework-tag">BREVITY</span> Short email = high readership. This email's only job is to build excitement for tomorrow.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- C9: Launch Confirmation -->
+    <!-- ============================================ -->
+    <section id="c9" class="email-section">
+        <div class="email-header">
+            <h2>C9: Launch Confirmation (Launch Day)</h2>
+            <div class="scores">
+                <span class="score before">Before: 6.5/10</span>
+                <span class="arrow">→</span>
+                <span class="score after">After: 8.5/10</span>
+                <span class="score-improvement">+2.0</span>
+            </div>
+        </div>
+        <div class="email-meta">
+            <span>Scheduled: Apr 2, 2026</span>
+            <span>Audience: All Founding Members</span>
+            <span>Goal: Get them logged in and deploying immediately</span>
+        </div>
+        <div class="email-body">
+            <div class="comparison-grid">
+                <div class="comparison-column original">
+                    <div class="column-header">Original Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: We Build AI Agents is live</div>
+                        <div class="preview">Preview: Your access starts today</div>
+                        <div class="body">Hey [First Name],
+
+Today is the day, We Build AI Agents is officially live.
+
+Everything we've been building, testing, and refining over the last 8 months is now ready for you, and all 6 agents are live on the platform and ready to deploy. And whether you've been with us since the beginning or you're just getting started, today is the moment to get in.
+
+[Access the Platform Now →]
+
+From here, everything happens inside WBAA, your agents, your updates, and every new agent we add going forward will all be waiting for you there. So log in, pick the agent that solves your biggest bottleneck first, and get your first workflow running.
+
+The wait is over.
+
+Marisha</div>
+                    </div>
+                </div>
+                <div class="comparison-column rewrite">
+                    <div class="column-header">Rewritten Email</div>
+                    <div class="email-content">
+                        <div class="subject">Subject: It's live</div>
+                        <div class="preview">Preview: Your WBAA account is ready</div>
+                        <div class="body">Hey [First Name],
+
+Today's the day. We made it.
+
+We Build AI Agents is officially live — and your account is ready.
+
+[Access Your Account →]
+
+Here's what's waiting for you inside:
+
+→ <strong>TikTok Intelligence Agent</strong> — research and scripts in under 30 minutes
+→ <strong>Instagram Reels Analyzer</strong> — see what's working in your niche
+→ <strong>YouTube Repurposing Agent</strong> — turn long-form into clips automatically
+→ <strong>CRO Agent</strong> — competitor analysis and test ideas on demand
+→ <strong>Social Media Intelligence Agent</strong> — track what's getting engagement
+→ <strong>Video Editing Agent</strong> — cuts, captions, and formatting handled
+
+My recommendation: start with the one that solves your biggest time sink right now. Don't try to deploy all six at once. Pick one, get it running, feel the impact — then add the next.
+
+If you hit any snags, just reply. I'm here.
+
+Welcome to WBAA.
+
+Marisha</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changes-section">
+                <h3>Key Changes Made</h3>
+                <div class="changes-grid">
+                    <div class="change-item">
+                        <span class="label">Subject</span>
+                        <span class="before-text">"We Build AI Agents is live"</span>
+                        <span class="after-text">"It's live" — simple, direct, no marketing fluff</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Opening</span>
+                        <span class="before-text">"Everything we've been building, testing..."</span>
+                        <span class="after-text">"Today's the day" — clean, excited, human</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">CTA Placement</span>
+                        <span class="before-text">Buried in the middle</span>
+                        <span class="after-text">Immediately after opening — get them in fast</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Recommendation</span>
+                        <span class="before-text">"Pick the agent that solves your biggest bottleneck"</span>
+                        <span class="after-text">"Don't try to deploy all six at once" — practical advice</span>
+                    </div>
+                    <div class="change-item">
+                        <span class="label">Close</span>
+                        <span class="before-text">"The wait is over"</span>
+                        <span class="after-text">"If you hit any snags, just reply" — supportive, human</span>
+                    </div>
+                </div>
+
+                <div class="reasoning-box">
+                    <h4>Why These Changes?</h4>
+                    <ul>
+                        <li><span class="framework-tag">JOANNA WIEBE</span> Launch day email should feel like good news from a friend, not a marketing announcement</li>
+                        <li><span class="framework-tag">CTA FIRST</span> They've been waiting for this — don't make them scroll. Put the access link near the top.</li>
+                        <li><span class="framework-tag">PRACTICAL ADVICE</span> "Don't try all six at once" is real advice that helps them succeed — not just marketing copy</li>
+                        <li><span class="framework-tag">SUPPORT OFFER</span> "Just reply" removes friction and shows you're accessible — builds trust on day one</li>
+                        <li><span class="framework-tag">SIMPLE CLOSE</span> "Welcome to WBAA" is clean and warm — no manufactured excitement needed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Final Checklist -->
+    <!-- ============================================ -->
+    <section id="checklist" class="checklist">
+        <h2>Pre-Launch Checklist</h2>
+        <p style="color: var(--gray-600); margin-bottom: 20px;">Before sending any emails, verify these items are complete:</p>
+        <div class="checklist-grid">
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>All dates confirmed as <strong>April 2nd</strong></span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>All spot counts aligned to <strong>30 founding member spots</strong></span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Tone reviewed: <strong>friend-to-friend, not salesy</strong></span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Subject lines reviewed for authenticity (no clickbait)</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Each email shows <strong>specific agent benefits + time savings</strong></span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Platform positioning: 6 at launch → 30+ year one → 60+ year two</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Lifetime member benefit: co-building + priority agent requests</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>C7 (launch eve) is short and builds anticipation</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>C9 (launch day) has CTA near top, practical advice</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Active Campaign tags set up correctly for each path</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>Abandoned cart trigger tested (1 hour delay working)</span>
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox">
+                <span>All links tested and working</span>
+            </label>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>WBAA Email Audit | Created with Copywriting Mastery + Marisha Skill Frameworks</p>
+    <p style="margin-top: 10px;">Audit Date: February 2026 | Version 1.0</p>
+</footer>
+
+</body>
+</html>
